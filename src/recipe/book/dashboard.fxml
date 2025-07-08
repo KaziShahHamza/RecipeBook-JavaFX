@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="recipe.book.DashboardController"
+            prefWidth="400" prefHeight="250">
+
+    <VBox alignment="CENTER" spacing="20.0" layoutX="50" layoutY="50">
+        <Label fx:id="welcomeLabel" style="-fx-font-size: 18px;" />
+        <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout" />
+    </VBox>
+
+</AnchorPane>
