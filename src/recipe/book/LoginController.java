@@ -51,4 +51,17 @@ public class LoginController {
             errorLabel.setText("Invalid username or password.");
         }
     }
+    
+    @FXML
+    private void handleSignupLink(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("signup.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Sign Up");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="recipe.book.SignupController"
+            prefWidth="400" prefHeight="300">
+
+    <VBox alignment="CENTER" spacing="10.0" layoutX="50" layoutY="30">
+        <Label text="Sign Up" style="-fx-font-size: 18px;" />
+
+        <TextField fx:id="usernameField" promptText="Username" />
+        <TextField fx:id="emailField" promptText="Email" />
+        <PasswordField fx:id="passwordField" promptText="Password" />
+
+        <Button text="Sign Up" onAction="#handleSignup" />
+        <Button text="Back to Login" onAction="#handleBackToLogin" />
+
+        <Label fx:id="statusLabel" textFill="green" />
+    </VBox>
+
+</AnchorPane>
