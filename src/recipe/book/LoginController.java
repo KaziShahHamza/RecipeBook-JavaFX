@@ -19,12 +19,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 
 public class LoginController {
 
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
+    @FXML
+    private Button loginButton;
 
     @FXML
     private void handleLogin(ActionEvent event) {

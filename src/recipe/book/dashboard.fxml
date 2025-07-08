@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="recipe.book.DashboardController"
-            prefWidth="400" prefHeight="250">
+<AnchorPane prefHeight="357.0" prefWidth="573.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.DashboardController">
 
-    <VBox alignment="CENTER" spacing="20.0" layoutX="50" layoutY="50">
-        <Label fx:id="welcomeLabel" style="-fx-font-size: 18px;" />
-        <Button fx:id="logoutButton" text="Logout" onAction="#handleLogout" />
+    <VBox alignment="CENTER" layoutX="50" layoutY="30" spacing="15.0">
+        <Label fx:id="welcomeLabel" style="-fx-font-size: 18px;" text="Add your unique Recipe &amp;  Share it with everyone" />
+      <Label fx:id="welcomeLabel1" style="-fx-font-size: 18px;" text="Add your unique Recipe &amp;  Share it with everyone" />
+
+        <TextField fx:id="recipeNameField" prefHeight="25.0" prefWidth="425.0" promptText="Enter Recipe Name" />
+        <TextArea fx:id="ingredientsField" prefRowCount="4" promptText="Enter Ingredients" />
+
+        <Button onAction="#handleSaveRecipe" text="Save Recipe" />
+        <Button onAction="#handleLogout" text="Logout" />
+
+        <Label fx:id="statusLabel" textFill="green" />
     </VBox>
 
 </AnchorPane>
