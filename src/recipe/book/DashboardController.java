@@ -19,6 +19,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.net.URL;
 
 public class DashboardController {
 
@@ -48,7 +56,29 @@ public class DashboardController {
             recipeNameField.clear();
             ingredientsField.clear();
         }
+        
+//         String sql = "INSERT INTO recipes (name, ingredients) VALUES (?, ?)";
+//
+//        try (Connection conn = getConnection();
+//             PreparedStatement stmt = conn.prepareStatement(sql)) {
+//
+//            stmt.setString(1, recipeName);
+//            stmt.setString(2, ingredients);
+//
+//            stmt.executeUpdate();
+//            statusLabel.setText("✅ Recipe saved to database!");
+//            statusLabel.setStyle("-fx-text-fill: green;");
+//            recipeNameField.clear();
+//            ingredientsField.clear();
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            statusLabel.setText("❌ Failed to save recipe.");
+//            statusLabel.setStyle("-fx-text-fill: red;");
+//        }   
     }
+    
+    
 
     @FXML
     private void handleLogout(ActionEvent event) {

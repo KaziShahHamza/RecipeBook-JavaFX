@@ -8,6 +8,12 @@ package recipe.book;
  *
  * @author LAPTOPBD
  */
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.net.URL;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
@@ -53,5 +59,19 @@ public class SignupController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    public Connection getConnection() {
+        Connection conn;
+        
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "root");
+            System.out.println("DB Connected");
+        } catch (Exception e) {
+            System.out.println( "DB not Connected");
+            System.err.println("Error " + e.getMessage());
+            return null;
+        }
+        return null;
     }
 }
