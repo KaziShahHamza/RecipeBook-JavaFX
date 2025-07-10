@@ -61,17 +61,4 @@ public class SignupController {
         }
     }
     
-    public Connection getConnection() {
-        Connection conn;
-        
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "root");
-            System.out.println("DB Connected");
-        } catch (Exception e) {
-            System.out.println( "DB not Connected");
-            System.err.println("Error " + e.getMessage());
-            return null;
-        }
-        return null;
-    }
 }
