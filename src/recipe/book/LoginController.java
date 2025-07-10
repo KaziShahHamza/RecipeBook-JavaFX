@@ -67,4 +67,17 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    private void handleViewRecipes(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("viewrecipes.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("View Recipes");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="recipe.book.ViewRecipesController"
+            prefWidth="500" prefHeight="400">
+
+    <VBox alignment="CENTER" spacing="10.0" layoutX="50" layoutY="30">
+        <Label text="All Recipes" style="-fx-font-size: 20px;" />
+
+        <TableView fx:id="recipeTable" prefHeight="300" prefWidth="450">
+            <columns>
+                <TableColumn fx:id="colName" text="Recipe Name" prefWidth="200"/>
+                <TableColumn fx:id="colIngredients" text="Ingredients" prefWidth="250"/>
+            </columns>
+        </TableView>
+
+        <Button text="Back to Dashboard" onAction="#handleBack" />
+    </VBox>
+
+</AnchorPane>

@@ -18,6 +18,9 @@
         <Button fx:id="loginButton" onAction="#handleLogin" text="Login" />
         <Button onAction="#handleSignupLink" text="Create Account" />
         <Label fx:id="errorLabel" textFill="red" />
+        
+        <Button text="View All Recipes" onAction="#handleViewRecipes" />
+
     </VBox>
 
 </AnchorPane>

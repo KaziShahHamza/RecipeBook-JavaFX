@@ -27,6 +27,8 @@
                   <Button onAction="#handleDeleteRecipe" text="Delete" />
               </HBox>
               <Button onAction="#handleLogout" text="Logout" />
+              <Button text="View All Recipes" onAction="#handleViewRecipes" />
+
       
               <Label fx:id="statusLabel" textFill="green" />
           </VBox>

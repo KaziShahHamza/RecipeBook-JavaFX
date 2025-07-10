@@ -23,7 +23,6 @@ import javafx.scene.Node;
 import java.sql.*;
 
 public class DashboardController {
-
     @FXML private Label welcomeLabel;
     @FXML private TextField recipeNameField;
     @FXML private TextArea ingredientsField;
@@ -40,6 +39,7 @@ public class DashboardController {
 
     public void setUsername(String username) {
         welcomeLabel.setText("Welcome, " + username + "!");
+        loadRecipesFromDatabase();
     }
     
     @FXML
@@ -180,5 +180,20 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
+    
+    
+    @FXML
+    private void handleViewRecipes(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("viewrecipes.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("View Recipes");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
