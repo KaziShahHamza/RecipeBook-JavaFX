@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="250" prefWidth="400" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.LoginController">
 
-    <VBox alignment="CENTER" layoutX="118.0" layoutY="27.0" spacing="10.0">
+    <VBox alignment="CENTER" layoutX="118.0" layoutY="13.0" spacing="10.0">
         <Label style="-fx-font-size: 18px;" text="Login to RecipeBook" />
 
         <TextField fx:id="usernameField" promptText="Username" />
@@ -19,7 +19,7 @@
         <Button onAction="#handleSignupLink" text="Create Account" />
         <Label fx:id="errorLabel" textFill="red" />
         
-        <Button text="View All Recipes" onAction="#handleViewRecipes" />
+        <Button onAction="#handleViewRecipes" text="View All Recipes" />
 
     </VBox>
 

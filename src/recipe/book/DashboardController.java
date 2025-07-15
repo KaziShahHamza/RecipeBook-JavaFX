@@ -35,22 +35,7 @@ public class DashboardController {
     private Recipe selectedRecipe = null;
 
     private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
-    @FXML
-    private TextArea descriptionField;
-    @FXML
-    private ComboBox<?> categoryCombo;
-    @FXML
-    private ComboBox<?> budgetCombo;
-    @FXML
-    private TextField cookingTimeField;
-    @FXML
-    private ToggleGroup difficultyGroup;
-    @FXML
-    private RadioButton easyRadio;
-    @FXML
-    private RadioButton mediumRadio;
-    @FXML
-    private RadioButton hardRadio;
+
 
     public void setUsername(String username) {
         welcomeLabel.setText("Welcome, " + username + "!");
