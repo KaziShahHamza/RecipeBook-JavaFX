@@ -28,6 +28,9 @@ public class DashboardController {
     @FXML private TextArea ingredientsField;
     @FXML private Label statusLabel;
     
+    private int userId;
+    private String username;
+    
     @FXML private TextArea descriptionField;
     @FXML private RadioButton breakfastRadio, lunchRadio, dinnerRadio;
     @FXML private RadioButton budget100, budget250, budget500;
@@ -45,9 +48,12 @@ public class DashboardController {
     private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
 
 
-    public void setUsername(String username) {
-        welcomeLabel.setText("Welcome, " + username + "!");
+    public void setUser(int id, String name) {
+        this.userId = id;
+        this.username = name;
+        welcomeLabel.setText("Welcome, " + username + "!" + "  userId: " + userId);
         loadRecipesFromDatabase();
+
     }
     
     @FXML
@@ -115,8 +121,8 @@ public class DashboardController {
         try (Connection conn = getConnection()) {
 
             if (selectedRecipe == null) {
-                String sql = "INSERT INTO recipes (name, ingredients, description, category, budget, cooking_time, difficulty) " +
-                             "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                String sql = "INSERT INTO recipes (name, ingredients, description, category, budget, cooking_time, difficulty, user_id) " +
+                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, name);
                 stmt.setString(2, ingredients);
@@ -125,6 +131,7 @@ public class DashboardController {
                 stmt.setString(5, budget);
                 stmt.setInt(6, cookingTime);
                 stmt.setString(7, difficulty);
+                stmt.setInt(8, userId);
                 stmt.executeUpdate();
 
                 statusLabel.setText("✅ Recipe added successfully!");
@@ -237,31 +244,33 @@ public class DashboardController {
 
     
     private void loadRecipesFromDatabase() {
-        ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
+    ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
 
-        try (Connection conn = getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT * FROM recipes")) {
+    try (Connection conn = getConnection();
+         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM recipes WHERE user_id = ?")) {
 
-            while (rs.next()) {
-                recipeList.add(new Recipe(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("ingredients"),
-                    rs.getString("description"),
-                    rs.getString("category"),
-                    rs.getString("budget"),
-                    rs.getInt("cooking_time"),
-                    rs.getString("difficulty")
-                ));
-            }
+        stmt.setInt(1, userId);
+        ResultSet rs = stmt.executeQuery();
 
-            recipeTable.setItems(recipeList);
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        while (rs.next()) {
+            recipeList.add(new Recipe(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getString("ingredients"),
+                rs.getString("description"),
+                rs.getString("category"),
+                rs.getString("budget"),
+                rs.getInt("cooking_time"),
+                rs.getString("difficulty")
+            ));
         }
+
+        recipeTable.setItems(recipeList);
+
+    } catch (SQLException e) {
+        e.printStackTrace();
     }
+}
 
     
     public Connection getConnection() {

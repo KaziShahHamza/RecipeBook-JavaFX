@@ -19,6 +19,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import java.sql.*;
+
 
 public class SignupController {
 
@@ -29,19 +31,32 @@ public class SignupController {
 
     @FXML
     private void handleSignup(ActionEvent event) {
-        String username = usernameField.getText();
-        String email = emailField.getText();
-        String password = passwordField.getText();
+    String username = usernameField.getText();
+    String email = emailField.getText();
+    String password = passwordField.getText();
 
-        if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
-            statusLabel.setText("Please fill all fields.");
-            statusLabel.setStyle("-fx-text-fill: red;");
-        } else {
-            // Placeholder: real implementation would insert into DB
-            statusLabel.setText("Account created! You can log in now.");
-            statusLabel.setStyle("-fx-text-fill: green;");
-        }
+    if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+        statusLabel.setText("All fields are required.");
+        return;
     }
+
+    String hashedPassword = HashUtil.hashPassword(password);
+
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
+        String sql = "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, username);
+        stmt.setString(2, email);
+        stmt.setString(3, hashedPassword);
+        stmt.executeUpdate();
+
+        statusLabel.setText("✅ Signup successful!");
+    } catch (SQLException e) {
+        e.printStackTrace();
+        statusLabel.setText("❌ Signup failed. Username may exist.");
+    }
+}
+
 
     @FXML
     private void handleBackToLogin(ActionEvent event) {

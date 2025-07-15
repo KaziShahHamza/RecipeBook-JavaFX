@@ -20,6 +20,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+import java.sql.*;
+
 
 public class LoginController {
 
@@ -27,32 +29,44 @@ public class LoginController {
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
     @FXML private Button loginButton;
+    @FXML private Label statusLabel;
 
     @FXML
     private void handleLogin(ActionEvent event) {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+    String username = usernameField.getText();
+    String password = passwordField.getText();
+    String hashedPassword = HashUtil.hashPassword(password);
 
-        if (username.equals("hamza") && password.equals("hamza123")) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
-                Parent root = loader.load();
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
+        String sql = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setString(1, username);
+        stmt.setString(2, hashedPassword);
+        ResultSet rs = stmt.executeQuery();
 
-                // Pass username to dashboard controller
-                DashboardController controller = loader.getController();
-                controller.setUsername(username);
+        if (rs.next()) {
+            int userId = rs.getInt("id");
+            String loggedUsername = rs.getString("username");
 
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(root));
-                stage.setTitle("Dashboard");
-                stage.show();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            // Pass user info to dashboard
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+            Parent root = loader.load();
+            DashboardController dashboardController = loader.getController();
+            dashboardController.setUser(userId, loggedUsername);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Dashboard - " + loggedUsername);
+            stage.show();
+
         } else {
-            errorLabel.setText("Invalid username or password.");
+            statusLabel.setText("Invalid username or password.");
         }
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
+
     
     @FXML
     private void handleSignupLink(ActionEvent event) {
