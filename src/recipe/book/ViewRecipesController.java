@@ -26,15 +26,21 @@ import java.sql.*;
 public class ViewRecipesController {
 
     @FXML private TableView<Recipe> recipeTable;
-    @FXML private TableColumn<Recipe, String> colName;
-    @FXML private TableColumn<Recipe, String> colIngredients;
-
+    @FXML private TableColumn<Recipe, String> colName, colIngredients, colDescription,
+                                              colCategory, colBudget, colDifficulty;
+    @FXML private TableColumn<Recipe, Integer> colTime;
+    
     private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
 
     @FXML
     private void initialize() {
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colIngredients.setCellValueFactory(new PropertyValueFactory<>("ingredients"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+        colBudget.setCellValueFactory(new PropertyValueFactory<>("budget"));
+        colTime.setCellValueFactory(new PropertyValueFactory<>("cookingTime"));
+        colDifficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
         loadRecipes();
     }
 

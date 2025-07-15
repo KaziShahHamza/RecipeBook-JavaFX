@@ -78,6 +78,7 @@ public class DashboardController {
 
         loadRecipesFromDatabase();
     }
+
     
     private String getSelectedRadioText(RadioButton... buttons) {
         for (RadioButton b : buttons) {
@@ -111,34 +112,60 @@ public class DashboardController {
             return;
         }
 
-        try (Connection conn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
+        try (Connection conn = getConnection()) {
 
-            String sql = "INSERT INTO recipes (name, ingredients, description, category, budget, cooking_time, difficulty) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, name);
-            stmt.setString(2, ingredients);
-            stmt.setString(3, description);
-            stmt.setString(4, category);
-            stmt.setString(5, budget);
-            stmt.setInt(6, cookingTime);
-            stmt.setString(7, difficulty);
+            if (selectedRecipe == null) {
+                String sql = "INSERT INTO recipes (name, ingredients, description, category, budget, cooking_time, difficulty) " +
+                             "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, name);
+                stmt.setString(2, ingredients);
+                stmt.setString(3, description);
+                stmt.setString(4, category);
+                stmt.setString(5, budget);
+                stmt.setInt(6, cookingTime);
+                stmt.setString(7, difficulty);
+                stmt.executeUpdate();
 
-            stmt.executeUpdate();
+                statusLabel.setText("✅ Recipe added successfully!");
+            } else {
+                String sql = "UPDATE recipes SET name = ?, ingredients = ?, description = ?, category = ?, budget = ?, cooking_time = ?, difficulty = ? WHERE id = ?";
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                stmt.setString(1, name);
+                stmt.setString(2, ingredients);
+                stmt.setString(3, description);
+                stmt.setString(4, category);
+                stmt.setString(5, budget);
+                stmt.setInt(6, cookingTime);
+                stmt.setString(7, difficulty);
+                stmt.setInt(8, selectedRecipe.getId());
+                stmt.executeUpdate();
 
-            statusLabel.setText("✅ Recipe saved successfully!");
+                statusLabel.setText("✅ Recipe updated!");
+            }
+
             statusLabel.setStyle("-fx-text-fill: green;");
             clearForm();
             loadRecipesFromDatabase();
+            selectedRecipe = null; 
 
         } catch (SQLException e) {
             e.printStackTrace();
-            statusLabel.setText("❌ Error saving recipe.");
+            statusLabel.setText("❌ Database error.");
             statusLabel.setStyle("-fx-text-fill: red;");
         }
     }
 
+    private void setRadioSelection(String value, RadioButton... buttons) {
+        for (RadioButton b : buttons) {
+            if (b.getText().equalsIgnoreCase(value)) {
+                b.setSelected(true);
+                return;
+            }
+        }
+    }
+
+    
     @FXML
     private void handleEditRecipe(ActionEvent event) {
         selectedRecipe = recipeTable.getSelectionModel().getSelectedItem();
@@ -151,9 +178,18 @@ public class DashboardController {
 
         recipeNameField.setText(selectedRecipe.getName());
         ingredientsField.setText(selectedRecipe.getIngredients());
+        descriptionField.setText(selectedRecipe.getDescription());
+        cookingTimeField.setText(String.valueOf(selectedRecipe.getCookingTime()));
+
+        // Set selected radio buttons
+        setRadioSelection(selectedRecipe.getCategory(), breakfastRadio, lunchRadio, dinnerRadio);
+        setRadioSelection(selectedRecipe.getBudget(), budget100, budget250, budget500);
+        setRadioSelection(selectedRecipe.getDifficulty(), easyRadio, mediumRadio, hardRadio);
+
         statusLabel.setText("Editing recipe: " + selectedRecipe.getName());
         statusLabel.setStyle("-fx-text-fill: orange;");
     }
+
 
     @FXML
     private void handleDeleteRecipe(ActionEvent event) {
