@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="recipe.book.ViewRecipesController"
-            prefWidth="500" prefHeight="400">
+<AnchorPane prefHeight="400" prefWidth="500" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.ViewRecipesController">
 
-    <VBox alignment="CENTER" spacing="10.0" layoutX="50" layoutY="30">
-        <Label text="All Recipes" style="-fx-font-size: 20px;" />
+    <VBox alignment="CENTER" layoutX="25.0" layoutY="14.0" spacing="10.0">
+        <Label style="-fx-font-size: 20px;" text="All Recipes" />
 
         <TableView fx:id="recipeTable" prefHeight="300" prefWidth="450">
             <columns>
-                <TableColumn fx:id="colName" text="Recipe Name" prefWidth="200"/>
-                <TableColumn fx:id="colIngredients" text="Ingredients" prefWidth="250"/>
+                <TableColumn fx:id="colName" prefWidth="200" text="Recipe Name" />
+                <TableColumn fx:id="colIngredients" prefWidth="250" text="Ingredients" />
             </columns>
         </TableView>
 
-        <Button text="Back to Dashboard" onAction="#handleBack" />
+        <Button onAction="#handleBack" text="Back to Dashboard" />
     </VBox>
 
 </AnchorPane>

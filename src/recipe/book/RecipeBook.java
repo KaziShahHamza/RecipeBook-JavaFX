@@ -19,7 +19,6 @@ public class RecipeBook extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
-        
         Scene scene = new Scene(root);
         stage.setTitle("RecipeBook Login");
         stage.setScene(scene);

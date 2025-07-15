@@ -27,7 +27,6 @@ public class DashboardController {
     @FXML private TextField recipeNameField;
     @FXML private TextArea ingredientsField;
     @FXML private Label statusLabel;
-    @FXML private Label welcomeLabel1;
     
     @FXML private TableView<Recipe> recipeTable;
     @FXML private TableColumn<Recipe, String> colName;
@@ -36,6 +35,22 @@ public class DashboardController {
     private Recipe selectedRecipe = null;
 
     private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
+    @FXML
+    private TextArea descriptionField;
+    @FXML
+    private ComboBox<?> categoryCombo;
+    @FXML
+    private ComboBox<?> budgetCombo;
+    @FXML
+    private TextField cookingTimeField;
+    @FXML
+    private ToggleGroup difficultyGroup;
+    @FXML
+    private RadioButton easyRadio;
+    @FXML
+    private RadioButton mediumRadio;
+    @FXML
+    private RadioButton hardRadio;
 
     public void setUsername(String username) {
         welcomeLabel.setText("Welcome, " + username + "!");
@@ -62,7 +77,6 @@ public class DashboardController {
         try (Connection conn = getConnection();) {
 
             if (selectedRecipe == null) {
-            // CREATE new recipe
             String sql = "INSERT INTO recipes (name, ingredients) VALUES (?, ?)";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, recipeName);
@@ -70,7 +84,6 @@ public class DashboardController {
             stmt.executeUpdate();
             statusLabel.setText("Recipe added!");
         } else {
-            // UPDATE selected recipe
             String sql = "UPDATE recipes SET name = ?, ingredients = ? WHERE id = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, recipeName);
@@ -103,7 +116,6 @@ public class DashboardController {
             return;
         }
 
-        // Load data into input fields
         recipeNameField.setText(selectedRecipe.getName());
         ingredientsField.setText(selectedRecipe.getIngredients());
         statusLabel.setText("Editing recipe: " + selectedRecipe.getName());
