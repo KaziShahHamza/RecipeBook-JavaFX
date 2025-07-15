@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="446.0" prefWidth="666.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.DashboardController">
-   <HBox layoutX="14.0" layoutY="14.0" prefHeight="415.0" prefWidth="639.0" spacing="10.0">
+<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.DashboardController">
+   <HBox layoutX="14.0" layoutY="14.0" prefHeight="475.0" prefWidth="780.0" spacing="10.0">
       <children>
       
-          <VBox alignment="CENTER" prefWidth="304.0" spacing="10.0">
+          <VBox alignment="CENTER" prefHeight="475.0" prefWidth="652.0" spacing="10.0">
     
             <Label fx:id="welcomeLabel" style="-fx-font-size: 18px;" text="Welcome Text" />
             <Label fx:id="welcomeLabel1" style="-fx-font-size: 16px;" text="Add your unique Recipe &amp; Share it with everyone" />
@@ -102,18 +102,17 @@
             <Label fx:id="statusLabel" textFill="green" />
         </VBox>
 
-           
-           <TableView fx:id="recipeTable" prefHeight="238.0" prefWidth="333.0">
-               <columns>
-                    <TableColumn fx:id="colName" prefWidth="150" text="Recipe Name" />
-                    <TableColumn fx:id="colIngredients" prefWidth="200" text="Ingredients" />
-                    <TableColumn fx:id="colDescription" prefWidth="150" text="Description" />
+           <TableView fx:id="recipeTable" prefHeight="476.0" prefWidth="801.0">
+                <columns>
+                    <TableColumn fx:id="colName" prefWidth="100" text="Recipe Name" />
+                    <TableColumn fx:id="colIngredients" prefWidth="120" text="Ingredients" />
+                    <TableColumn fx:id="colDescription" prefWidth="120" text="Description" />
                     <TableColumn fx:id="colCategory" prefWidth="100" text="Category" />
-                    <TableColumn fx:id="colBudget" prefWidth="100" text="Budget" />
+                    <TableColumn fx:id="colBudget" prefWidth="80" text="Budget" />
                     <TableColumn fx:id="colTime" prefWidth="80" text="Time (min)" />
                     <TableColumn fx:id="colDifficulty" prefWidth="100" text="Difficulty" />
-               </columns>
-           </TableView>
+                </columns>
+            </TableView>
       </children>
    </HBox>
 

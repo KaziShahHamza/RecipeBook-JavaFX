@@ -49,9 +49,15 @@ public class ViewRecipesController {
                 recipeList.add(new Recipe(
                     rs.getInt("id"),
                     rs.getString("name"),
-                    rs.getString("ingredients")
+                    rs.getString("ingredients"),
+                    rs.getString("description"),
+                    rs.getString("category"),
+                    rs.getString("budget"),
+                    rs.getInt("cooking_time"),
+                    rs.getString("difficulty")
                 ));
             }
+
 
             recipeTable.setItems(recipeList);
         } catch (SQLException e) {

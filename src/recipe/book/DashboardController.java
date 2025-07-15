@@ -28,9 +28,17 @@ public class DashboardController {
     @FXML private TextArea ingredientsField;
     @FXML private Label statusLabel;
     
+    @FXML private TextArea descriptionField;
+    @FXML private RadioButton breakfastRadio, lunchRadio, dinnerRadio;
+    @FXML private RadioButton budget100, budget250, budget500;
+    @FXML private RadioButton easyRadio, mediumRadio, hardRadio;
+    @FXML private TextField cookingTimeField;
+
     @FXML private TableView<Recipe> recipeTable;
-    @FXML private TableColumn<Recipe, String> colName;
-    @FXML private TableColumn<Recipe, String> colIngredients;
+    @FXML private TableColumn<Recipe, String> colName, colIngredients, colDescription,
+                                              colCategory, colBudget, colDifficulty;
+    @FXML private TableColumn<Recipe, Integer> colTime;
+
     
     private Recipe selectedRecipe = null;
 
@@ -44,53 +52,93 @@ public class DashboardController {
     
     @FXML
     private void initialize() {
+        ToggleGroup categoryGroup = new ToggleGroup();
+        breakfastRadio.setToggleGroup(categoryGroup);
+        lunchRadio.setToggleGroup(categoryGroup);
+        dinnerRadio.setToggleGroup(categoryGroup);
+
+        ToggleGroup budgetGroup = new ToggleGroup();
+        budget100.setToggleGroup(budgetGroup);
+        budget250.setToggleGroup(budgetGroup);
+        budget500.setToggleGroup(budgetGroup);
+
+        ToggleGroup difficultyGroup = new ToggleGroup();
+        easyRadio.setToggleGroup(difficultyGroup);
+        mediumRadio.setToggleGroup(difficultyGroup);
+        hardRadio.setToggleGroup(difficultyGroup);
+
+        // TableView columns
         colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         colIngredients.setCellValueFactory(new PropertyValueFactory<>("ingredients"));
+        colDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        colCategory.setCellValueFactory(new PropertyValueFactory<>("category"));
+        colBudget.setCellValueFactory(new PropertyValueFactory<>("budget"));
+        colTime.setCellValueFactory(new PropertyValueFactory<>("cookingTime"));
+        colDifficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
+
+        loadRecipesFromDatabase();
     }
+    
+    private String getSelectedRadioText(RadioButton... buttons) {
+        for (RadioButton b : buttons) {
+            if (b.isSelected()) return b.getText();
+        }
+        return null;
+    }
+
     
     @FXML
     private void handleSaveRecipe(ActionEvent event) {
-        String recipeName = recipeNameField.getText();
+        String name = recipeNameField.getText();
         String ingredients = ingredientsField.getText();
+        String description = descriptionField.getText();
+        String category = getSelectedRadioText(breakfastRadio, lunchRadio, dinnerRadio);
+        String budget = getSelectedRadioText(budget100, budget250, budget500);
+        String difficulty = getSelectedRadioText(easyRadio, mediumRadio, hardRadio);
+        int cookingTime = 0;
 
-        if (recipeName.isEmpty() || ingredients.isEmpty()) {
-            statusLabel.setText("Please enter both recipe name and ingredients.");
+        try {
+            cookingTime = Integer.parseInt(cookingTimeField.getText());
+        } catch (NumberFormatException e) {
+            statusLabel.setText("Cooking time must be a number.");
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
-        
-        try (Connection conn = getConnection();) {
 
-            if (selectedRecipe == null) {
-            String sql = "INSERT INTO recipes (name, ingredients) VALUES (?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, recipeName);
-            stmt.setString(2, ingredients);
-            stmt.executeUpdate();
-            statusLabel.setText("Recipe added!");
-        } else {
-            String sql = "UPDATE recipes SET name = ?, ingredients = ? WHERE id = ?";
-            PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setString(1, recipeName);
-            stmt.setString(2, ingredients);
-            stmt.setInt(3, selectedRecipe.getId());
-            stmt.executeUpdate();
-            statusLabel.setText("Recipe updated!");
+        if (name.isEmpty() || ingredients.isEmpty() || category == null || budget == null || difficulty == null) {
+            statusLabel.setText("Please fill all required fields.");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
         }
 
-        statusLabel.setStyle("-fx-text-fill: green;");
-        recipeNameField.clear();
-        ingredientsField.clear();
-        selectedRecipe = null;
-        loadRecipesFromDatabase();
+        try (Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
 
-        } catch (Exception e) {
+            String sql = "INSERT INTO recipes (name, ingredients, description, category, budget, cooking_time, difficulty) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, name);
+            stmt.setString(2, ingredients);
+            stmt.setString(3, description);
+            stmt.setString(4, category);
+            stmt.setString(5, budget);
+            stmt.setInt(6, cookingTime);
+            stmt.setString(7, difficulty);
+
+            stmt.executeUpdate();
+
+            statusLabel.setText("✅ Recipe saved successfully!");
+            statusLabel.setStyle("-fx-text-fill: green;");
+            clearForm();
+            loadRecipesFromDatabase();
+
+        } catch (SQLException e) {
             e.printStackTrace();
-            statusLabel.setText("❌ Failed to save recipe.");
+            statusLabel.setText("❌ Error saving recipe.");
             statusLabel.setStyle("-fx-text-fill: red;");
-        }   
+        }
     }
-    
+
     @FXML
     private void handleEditRecipe(ActionEvent event) {
         selectedRecipe = recipeTable.getSelectionModel().getSelectedItem();
@@ -134,25 +182,51 @@ public class DashboardController {
         }
     }
 
+    private void clearForm() {
+        recipeNameField.clear();
+        ingredientsField.clear();
+        descriptionField.clear();
+        cookingTimeField.clear();
+
+        breakfastRadio.setSelected(false);
+        lunchRadio.setSelected(false);
+        dinnerRadio.setSelected(false);
+        budget100.setSelected(false);
+        budget250.setSelected(false);
+        budget500.setSelected(false);
+        easyRadio.setSelected(false);
+        mediumRadio.setSelected(false);
+        hardRadio.setSelected(false);
+    }
+
     
     private void loadRecipesFromDatabase() {
-        recipeList.clear();
+        ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
+
         try (Connection conn = getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT * FROM recipes")) {
 
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String ingredients = rs.getString("ingredients");
-                recipeList.add(new Recipe(id, name, ingredients));
+                recipeList.add(new Recipe(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("ingredients"),
+                    rs.getString("description"),
+                    rs.getString("category"),
+                    rs.getString("budget"),
+                    rs.getInt("cooking_time"),
+                    rs.getString("difficulty")
+                ));
             }
 
             recipeTable.setItems(recipeList);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
     
     public Connection getConnection() {
         try {
