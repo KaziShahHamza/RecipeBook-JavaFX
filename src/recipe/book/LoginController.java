@@ -9,6 +9,7 @@ package recipe.book;
  * @author LAPTOPBD
  */
 
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
@@ -24,48 +25,55 @@ import java.sql.*;
 
 
 public class LoginController {
-
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
     @FXML private Button loginButton;
-    @FXML private Label statusLabel;
 
     @FXML
     private void handleLogin(ActionEvent event) {
     String username = usernameField.getText();
     String password = passwordField.getText();
-    String hashedPassword = HashUtil.hashPassword(password);
 
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
-        String sql = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setString(1, username);
-        stmt.setString(2, hashedPassword);
-        ResultSet rs = stmt.executeQuery();
 
-        if (rs.next()) {
-            int userId = rs.getInt("id");
-            String loggedUsername = rs.getString("username");
+        // Step 1: Check if username exists
+        String checkUserSql = "SELECT password_hash, id FROM users WHERE username = ?";
+        PreparedStatement checkStmt = conn.prepareStatement(checkUserSql);
+        checkStmt.setString(1, username);
+        ResultSet rs = checkStmt.executeQuery();
 
-            // Pass user info to dashboard
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
-            Parent root = loader.load();
-            DashboardController dashboardController = loader.getController();
-            dashboardController.setUser(userId, loggedUsername);
-
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle("Dashboard - " + loggedUsername);
-            stage.show();
-
-        } else {
-            statusLabel.setText("Invalid username or password.");
+        if (!rs.next()) {
+            errorLabel.setText("User not found");
+            return;
         }
+
+        // Step 2: Validate password
+        String storedHashedPassword = rs.getString("password_hash");
+        int userId = rs.getInt("id");
+
+        if (!HashUtil.checkPassword(password, storedHashedPassword)) {
+            errorLabel.setText("Incorrect password.");
+            return;
+        }
+
+        // Step 3: Load dashboard
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+        Parent root = loader.load();
+        DashboardController dashboardController = loader.getController();
+        dashboardController.setUser(userId, username);
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Dashboard - " + username);
+        stage.show();
+
     } catch (Exception e) {
+        errorLabel.setText("An error occurred. Please try again.");
         e.printStackTrace();
     }
 }
+
 
     
     @FXML
@@ -93,4 +101,19 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    private void handleViewCardRecipes(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("viewcardrecipes.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("All Recipes - Card View");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

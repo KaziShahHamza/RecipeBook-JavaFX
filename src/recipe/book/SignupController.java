@@ -34,11 +34,33 @@ public class SignupController {
     String username = usernameField.getText();
     String email = emailField.getText();
     String password = passwordField.getText();
-
+    
     if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
         statusLabel.setText("All fields are required.");
         return;
     }
+    
+    if (!Validator.isEmailValid(email)) {
+        statusLabel.setText("Invalid email format.");
+        return;
+    }
+    
+    if (!Validator.isUsernameValid(username)) {
+        statusLabel.setText("Username must be lowercase letters or numbers only.");
+        return;
+    }
+
+    if (!Validator.isPasswordValid(password)) {
+        statusLabel.setText("Password must be min 8 characters, contain uppercase, lowercase, number, and symbol.");
+        return;
+    }
+    
+    if (isUsernameOrEmailTaken(username, email)) {
+        statusLabel.setText("Username or Email already exists.");
+        return;
+    }
+
+    
 
     String hashedPassword = HashUtil.hashPassword(password);
 
@@ -57,7 +79,6 @@ public class SignupController {
     }
 }
 
-
     @FXML
     private void handleBackToLogin(ActionEvent event) {
         try {
@@ -71,4 +92,25 @@ public class SignupController {
         }
     }
     
+    
+    public boolean isUsernameOrEmailTaken(String username, String email) {
+        String sql = "SELECT COUNT(*) FROM users WHERE username = ? OR email = ?";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password");
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, email);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true; // fail safe: assume taken if error
+    }
 }

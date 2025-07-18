@@ -24,5 +24,10 @@ public class HashUtil {
             throw new RuntimeException("Error hashing password", e);
         }
     }
+    
+    public static boolean checkPassword(String password, String storedHash) {
+    return hashPassword(password).equals(storedHash);
+}
+
 }
 

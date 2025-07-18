@@ -20,7 +20,6 @@ import javafx.scene.Scene;
 import javafx.scene.Parent;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
-
 import java.sql.*;
 
 public class ViewRecipesController {
