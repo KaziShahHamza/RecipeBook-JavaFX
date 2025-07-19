@@ -26,8 +26,8 @@ public class HashUtil {
     }
     
     public static boolean checkPassword(String password, String storedHash) {
-    return hashPassword(password).equals(storedHash);
-}
+        return hashPassword(password).equals(storedHash);
+    }
 
 }
 

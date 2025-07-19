@@ -51,7 +51,7 @@ public class DashboardController {
     public void setUser(int id, String name) {
         this.userId = id;
         this.username = name;
-        welcomeLabel.setText("Welcome, " + username + "!" + "  userId: " + userId);
+        welcomeLabel.setText("Welcome, " + username + "!");
         loadRecipesFromDatabase();
 
     }
@@ -103,6 +103,12 @@ public class DashboardController {
         String budget = getSelectedRadioText(budget100, budget250, budget500);
         String difficulty = getSelectedRadioText(easyRadio, mediumRadio, hardRadio);
         int cookingTime = 0;
+        
+        if (name.isEmpty() || ingredients.isEmpty() || category == null || budget == null || difficulty == null) {
+            statusLabel.setText("Please fill all required fields.");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
 
         try {
             cookingTime = Integer.parseInt(cookingTimeField.getText());
@@ -112,16 +118,13 @@ public class DashboardController {
             return;
         }
 
-        if (name.isEmpty() || ingredients.isEmpty() || category == null || budget == null || difficulty == null) {
-            statusLabel.setText("Please fill all required fields.");
-            statusLabel.setStyle("-fx-text-fill: red;");
-            return;
-        }
+        
 
         try (Connection conn = getConnection()) {
 
             if (selectedRecipe == null) {
-                String sql = "INSERT INTO recipes (name, ingredients, description, category, budget, cooking_time, difficulty, user_id) " +
+                String sql = "INSERT INTO recipes (name, ingredients, "
+                        + "description, category, budget, cooking_time, difficulty, user_id) " +
                              "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, name);
@@ -136,7 +139,9 @@ public class DashboardController {
 
                 statusLabel.setText("✅ Recipe added successfully!");
             } else {
-                String sql = "UPDATE recipes SET name = ?, ingredients = ?, description = ?, category = ?, budget = ?, cooking_time = ?, difficulty = ? WHERE id = ?";
+                String sql = "UPDATE recipes SET name = ?, ingredients = ?, "
+                        + "description = ?, category = ?, budget = ?, "
+                        + "cooking_time = ?, difficulty = ? WHERE id = ?";
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 stmt.setString(1, name);
                 stmt.setString(2, ingredients);
@@ -276,7 +281,8 @@ public class DashboardController {
     public Connection getConnection() {
         try {
             System.out.println("DB Connected");
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password");
+            return DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb",
+                    "root", "password");
         } catch (Exception e) {
             System.out.println( "DB not Connected");
             System.err.println("Error " + e.getMessage());
