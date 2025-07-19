@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.ViewRecipesController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="recipe.book.ViewRecipesController">
 
     <VBox alignment="CENTER" layoutX="25.0" layoutY="14.0" spacing="10.0">
         <Label style="-fx-font-size: 20px;" text="All Recipes" />
+
+        <TextField fx:id="searchField" promptText="Search by Recipe Name..." prefWidth="300"/>
 
         <TableView fx:id="recipeTable" prefHeight="400.0" prefWidth="750.0">
             <columns>

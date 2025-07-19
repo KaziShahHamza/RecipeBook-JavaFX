@@ -139,7 +139,6 @@ public class DashboardController {
         }
         
         
-        
         try (Connection conn = getConnection()) {
 
             if (selectedRecipe == null) {
@@ -322,7 +321,6 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
-    
     
     @FXML
     private void handleViewRecipes(ActionEvent event) {

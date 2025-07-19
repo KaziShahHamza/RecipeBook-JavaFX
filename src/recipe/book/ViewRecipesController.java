@@ -21,14 +21,18 @@ import javafx.scene.Parent;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
 import java.sql.*;
+import javafx.scene.control.TextField;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+
 
 public class ViewRecipesController {
-
     @FXML private TableView<Recipe> recipeTable;
     @FXML private TableColumn<Recipe, String> colName, colIngredients, colDescription,
                                               colCategory, colBudget, colDifficulty;
     @FXML private TableColumn<Recipe, Integer> colTime;
-    
+    @FXML private TextField searchField;
+
     private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
 
     @FXML
@@ -40,7 +44,9 @@ public class ViewRecipesController {
         colBudget.setCellValueFactory(new PropertyValueFactory<>("budget"));
         colTime.setCellValueFactory(new PropertyValueFactory<>("cookingTime"));
         colDifficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
+
         loadRecipes();
+        setupSearchFilter();
     }
 
     private void loadRecipes() {
@@ -62,21 +68,37 @@ public class ViewRecipesController {
                     rs.getString("difficulty")
                 ));
             }
-
-
-            recipeTable.setItems(recipeList);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    private void setupSearchFilter() {
+        FilteredList<Recipe> filteredData = new FilteredList<>(recipeList, b -> true);
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(recipe -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                String lowerCaseFilter = newValue.toLowerCase();
+                return recipe.getName().toLowerCase().contains(lowerCaseFilter);
+            });
+        });
+
+        SortedList<Recipe> sortedData = new SortedList<>(filteredData);
+        sortedData.comparatorProperty().bind(recipeTable.comparatorProperty());
+        recipeTable.setItems(sortedData);
+    }
+
     @FXML
     private void handleBack(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+            Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Dashboard");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
