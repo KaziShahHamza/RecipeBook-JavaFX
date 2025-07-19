@@ -30,7 +30,7 @@ public class Validator {
 
     // Recipe Name: 8–100 characters
     public static boolean isRecipeNameValid(String name) {
-        return name != null && name.length() >= 8 && name.length() <= 100;
+        return name != null && name.length() >= 6 && name.length() <= 30;
     }
 
     // Ingredients: 8–100 characters
@@ -44,9 +44,9 @@ public class Validator {
     }
 
     // Cooking Time: 5–240 minutes
-    public static boolean isCookingTimeValid(String input) {
+    public static boolean isCookingTimeValid(int input) {
         try {
-            int time = Integer.parseInt(input);
+            int time = input;
             return time >= 5 && time <= 240;
         } catch (NumberFormatException e) {
             return false;

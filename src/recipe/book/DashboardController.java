@@ -109,7 +109,22 @@ public class DashboardController {
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
-
+        
+        if (!Validator.isRecipeNameValid(name)) {
+            statusLabel.setText("Recipe name must be min 6 characters.");
+            return;
+        }
+        
+        if (!Validator.isIngredientsValid(ingredients)) {
+            statusLabel.setText("Ingredients must be min 8 characters.");
+            return;
+        }
+        
+        if (!Validator.isDescriptionValid(description)) {
+            statusLabel.setText("Description must be min 20 characters.");
+            return;
+        }
+        
         try {
             cookingTime = Integer.parseInt(cookingTimeField.getText());
         } catch (NumberFormatException e) {
@@ -117,9 +132,14 @@ public class DashboardController {
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
-
         
-
+        if (!Validator.isCookingTimeValid(cookingTime)) {
+            statusLabel.setText("Cooking time must be between 5 to 240 mins.");
+            return;
+        }
+        
+        
+        
         try (Connection conn = getConnection()) {
 
             if (selectedRecipe == null) {
