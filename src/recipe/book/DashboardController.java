@@ -138,7 +138,6 @@ public class DashboardController {
             return;
         }
         
-        
         try (Connection conn = getConnection()) {
 
             if (selectedRecipe == null) {

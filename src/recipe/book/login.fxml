@@ -7,22 +7,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="270.0" prefWidth="359.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.LoginController">
-
+<AnchorPane prefHeight="270.0" prefWidth="359.0" 
+            xmlns="http://javafx.com/javafx/20.0.1" 
+            xmlns:fx="http://javafx.com/fxml/1" 
+            fx:controller="recipe.book.LoginController"
+            stylesheets="@login.css"
+>
     <VBox alignment="CENTER" layoutX="92.0" layoutY="3.0" prefHeight="267.0" prefWidth="185.0" spacing="10.0">
-        <Label style="-fx-font-size: 18px;" text="Login to RecipeBook" />
+        <Label text="Login to RecipeBook" />
 
         <TextField fx:id="usernameField" promptText="Username" />
         <PasswordField fx:id="passwordField" promptText="Password" />
 
         <Button fx:id="loginButton" onAction="#handleLogin" text="Login" />
         <Button onAction="#handleSignupLink" text="Create Account" />
-        <Label fx:id="errorLabel" prefHeight="17.0" prefWidth="157.0" textFill="red" />
+        <Label fx:id="errorLabel" prefHeight="17.0" prefWidth="157.0" />
         
         <Button onAction="#handleViewRecipes" text="View All Recipes" />
         <Button onAction="#handleViewCardRecipes" text="View All Recipes (Cards)" />
-
-
     </VBox>
-
 </AnchorPane>

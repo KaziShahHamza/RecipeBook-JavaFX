@@ -3,15 +3,51 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0"
+<AnchorPane prefHeight="600.0" prefWidth="800.0"
             xmlns="http://javafx.com/javafx/20.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="recipe.book.ViewRecipesController">
 
-    <VBox alignment="CENTER" layoutX="25.0" layoutY="14.0" spacing="10.0">
+    <VBox alignment="TOP_CENTER" spacing="10.0" layoutX="25.0" layoutY="10.0" prefWidth="750">
         <Label style="-fx-font-size: 20px;" text="All Recipes" />
 
-        <TextField fx:id="searchField" promptText="Search by Recipe Name..." prefWidth="300"/>
+        <HBox spacing="10">
+            <TextField fx:id="searchField" promptText="Search by Recipe Name..." prefWidth="300"/>
+        </HBox>
+
+        <HBox spacing="15">
+            <VBox spacing="5">
+                <Label text="Category"/>
+                <CheckBox fx:id="catBreakfast" text="Breakfast"/>
+                <CheckBox fx:id="catLunch" text="Lunch"/>
+                <CheckBox fx:id="catDinner" text="Dinner"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Budget"/>
+                <CheckBox fx:id="budget100" text="100–250"/>
+                <CheckBox fx:id="budget250" text="250–500"/>
+                <CheckBox fx:id="budget500" text="500+"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Difficulty"/>
+                <CheckBox fx:id="diffEasy" text="Easy"/>
+                <CheckBox fx:id="diffMedium" text="Medium"/>
+                <CheckBox fx:id="diffHard" text="Hard"/>
+            </VBox>
+
+            <VBox spacing="5">
+                <Label text="Cooking Time (min)"/>
+                <TextField fx:id="minTimeField" promptText="Min" prefWidth="60"/>
+                <TextField fx:id="maxTimeField" promptText="Max" prefWidth="60"/>
+            </VBox>
+
+            <VBox spacing="5" alignment="BOTTOM_CENTER">
+                <Button fx:id="filterButton" text="Filter" onAction="#handleFilter"/>
+                <Button fx:id="resetButton" text="Reset" onAction="#handleReset"/>
+            </VBox>
+        </HBox>
 
         <TableView fx:id="recipeTable" prefHeight="400.0" prefWidth="750.0">
             <columns>
@@ -27,5 +63,4 @@
 
         <Button onAction="#handleBack" text="Back to Dashboard" />
     </VBox>
-
 </AnchorPane>

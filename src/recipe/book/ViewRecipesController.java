@@ -24,6 +24,7 @@ import java.sql.*;
 import javafx.scene.control.TextField;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.scene.control.CheckBox;
 
 
 public class ViewRecipesController {
@@ -32,8 +33,13 @@ public class ViewRecipesController {
                                               colCategory, colBudget, colDifficulty;
     @FXML private TableColumn<Recipe, Integer> colTime;
     @FXML private TextField searchField;
+    @FXML private CheckBox catBreakfast, catLunch, catDinner;
+    @FXML private CheckBox budget100, budget250, budget500;
+    @FXML private CheckBox diffEasy, diffMedium, diffHard;
+    @FXML private TextField minTimeField, maxTimeField;
 
     private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
+    private FilteredList<Recipe> filteredData;
 
     @FXML
     private void initialize() {
@@ -68,29 +74,79 @@ public class ViewRecipesController {
                     rs.getString("difficulty")
                 ));
             }
+            filteredData = new FilteredList<>(recipeList, b -> true);
+            SortedList<Recipe> sorted = new SortedList<>(filteredData);
+            sorted.comparatorProperty().bind(recipeTable.comparatorProperty());
+            recipeTable.setItems(sorted);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
+   
     private void setupSearchFilter() {
-        FilteredList<Recipe> filteredData = new FilteredList<>(recipeList, b -> true);
-
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
             filteredData.setPredicate(recipe -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-
-                String lowerCaseFilter = newValue.toLowerCase();
-                return recipe.getName().toLowerCase().contains(lowerCaseFilter);
+                if (newVal == null || newVal.isEmpty()) return true;
+                return recipe.getName().toLowerCase().contains(newVal.toLowerCase());
             });
         });
-
-        SortedList<Recipe> sortedData = new SortedList<>(filteredData);
-        sortedData.comparatorProperty().bind(recipeTable.comparatorProperty());
-        recipeTable.setItems(sortedData);
     }
+    
+    @FXML
+    private void handleFilter(ActionEvent event) {
+        filteredData.setPredicate(recipe -> {
+            boolean matchCategory = !(
+                (!catBreakfast.isSelected() && recipe.getCategory().equalsIgnoreCase("Breakfast")) ||
+                (!catLunch.isSelected() && recipe.getCategory().equalsIgnoreCase("Lunch")) ||
+                (!catDinner.isSelected() && recipe.getCategory().equalsIgnoreCase("Dinner"))
+            );
+
+            boolean matchBudget = !(
+                (!budget100.isSelected() && recipe.getBudget().equalsIgnoreCase("100-250")) ||
+                (!budget250.isSelected() && recipe.getBudget().equalsIgnoreCase("250-500")) ||
+                (!budget500.isSelected() && recipe.getBudget().equalsIgnoreCase("500+"))
+            );
+
+            boolean matchDifficulty = !(
+                (!diffEasy.isSelected() && recipe.getDifficulty().equalsIgnoreCase("Easy")) ||
+                (!diffMedium.isSelected() && recipe.getDifficulty().equalsIgnoreCase("Medium")) ||
+                (!diffHard.isSelected() && recipe.getDifficulty().equalsIgnoreCase("Hard"))
+            );
+
+            boolean matchTime = true;
+            try {
+                int min = minTimeField.getText().isEmpty() ? Integer.MIN_VALUE : Integer.parseInt(minTimeField.getText());
+                int max = maxTimeField.getText().isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(maxTimeField.getText());
+                matchTime = recipe.getCookingTime() >= min && recipe.getCookingTime() <= max;
+            } catch (NumberFormatException e) {
+                // Ignore, keep default range
+            }
+
+            return matchCategory && matchBudget && matchDifficulty && matchTime;
+        });
+    }
+
+    @FXML
+    private void handleReset(ActionEvent event) {
+        searchField.clear();
+        catBreakfast.setSelected(false);
+        catLunch.setSelected(false);
+        catDinner.setSelected(false);
+
+        budget100.setSelected(false);
+        budget250.setSelected(false);
+        budget500.setSelected(false);
+
+        diffEasy.setSelected(false);
+        diffMedium.setSelected(false);
+        diffHard.setSelected(false);
+
+        minTimeField.clear();
+        maxTimeField.clear();
+
+        filteredData.setPredicate(r -> true);
+    }
+
 
     @FXML
     private void handleBack(ActionEvent event) {
