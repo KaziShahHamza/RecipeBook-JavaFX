@@ -20,6 +20,7 @@ public class RecipeBook extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         Scene scene = new Scene(root);
+//        scene.getStylesheets().add(getClass().getResource("login.css").toExternalForm());
         stage.setTitle("RecipeBook Login");
         stage.setScene(scene);
         stage.show();

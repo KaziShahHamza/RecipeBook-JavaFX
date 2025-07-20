@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="300" prefWidth="400" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.SignupController">
+<AnchorPane prefHeight="300" prefWidth="400"
+            xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="recipe.book.SignupController"
+            stylesheets="@signup.css">
 
-    <VBox alignment="CENTER" layoutX="125.0" layoutY="34.0" spacing="10.0">
-        <Label style="-fx-font-size: 18px;" text="Sign Up" />
+    <VBox alignment="CENTER" layoutX="100.0" layoutY="30.0" spacing="10.0" prefWidth="200.0">
+        <Label text="Sign Up" styleClass="heading-label"/>
 
-        <TextField fx:id="usernameField" promptText="Username" />
-        <TextField fx:id="emailField" promptText="Email" />
-        <PasswordField fx:id="passwordField" promptText="Password" />
+        <TextField fx:id="usernameField" promptText="Username" styleClass="input-field"/>
+        <TextField fx:id="emailField" promptText="Email" styleClass="input-field"/>
+        <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
 
-        <Button onAction="#handleSignup" text="Sign Up" />
-        <Button onAction="#handleBackToLogin" text="Back to Login" />
+        <Button onAction="#handleSignup" text="Sign Up" styleClass="primary-button"/>
+        <Button onAction="#handleBackToLogin" text="Back to Login" styleClass="secondary-button"/>
 
-        <Label fx:id="statusLabel" textFill="green" />
+        <Label fx:id="statusLabel" styleClass="status-label" />
     </VBox>
 
 </AnchorPane>

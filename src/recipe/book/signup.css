@@ -1,7 +1,9 @@
-/* login.css */
+/* signup.css */
 
 .root {
     -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: linear-gradient(to bottom, #f0f4f8, #dbe9f4); 
+    -fx-padding: 20;
 }
 
 .heading-label {
@@ -46,13 +48,7 @@
     -fx-background-color: #5a6268;
 }
 
-.info-button {
-    -fx-background-color: #17a2b8;
-    -fx-text-fill: white;
-    -fx-background-radius: 6;
-    -fx-pref-width: 200px;
-}
-
-.info-button:hover {
-    -fx-background-color: #117a8b;
+.status-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: green;
 }

@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="270.0" prefWidth="359.0" 
-            xmlns="http://javafx.com/javafx/20.0.1" 
-            xmlns:fx="http://javafx.com/fxml/1" 
+<AnchorPane prefHeight="270.0" prefWidth="359.0"
+            xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="recipe.book.LoginController"
             stylesheets="@login.css"
->
-    <VBox alignment="CENTER" layoutX="92.0" layoutY="3.0" prefHeight="267.0" prefWidth="185.0" spacing="10.0">
-        <Label text="Login to RecipeBook" />
-
-        <TextField fx:id="usernameField" promptText="Username" />
-        <PasswordField fx:id="passwordField" promptText="Password" />
-
-        <Button fx:id="loginButton" onAction="#handleLogin" text="Login" />
-        <Button onAction="#handleSignupLink" text="Create Account" />
-        <Label fx:id="errorLabel" prefHeight="17.0" prefWidth="157.0" />
+            style="-fx-background-color: linear-gradient(to bottom, #f0f4f8, #dbe9f4); -fx-padding: 20;">
+    
+    <VBox alignment="CENTER" layoutX="60.0" layoutY="10.0" prefHeight="250.0" prefWidth="240.0" spacing="12.0">
         
-        <Button onAction="#handleViewRecipes" text="View All Recipes" />
-        <Button onAction="#handleViewCardRecipes" text="View All Recipes (Cards)" />
+        <Label text="Login to RecipeBook" styleClass="heading-label"/>
+
+        <TextField fx:id="usernameField" promptText="Username" styleClass="input-field"/>
+        <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
+
+        <Button fx:id="loginButton" onAction="#handleLogin" text="Login" styleClass="primary-button"/>
+        <Button onAction="#handleSignupLink" text="Create Account" styleClass="secondary-button"/>
+
+        <Label fx:id="errorLabel" textFill="red" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+
+        <Button onAction="#handleViewRecipes" text="View All Recipes" styleClass="info-button"/>
+        <Button onAction="#handleViewCardRecipes" text="View All Recipes (Cards)" styleClass="info-button"/>
+
     </VBox>
+
 </AnchorPane>

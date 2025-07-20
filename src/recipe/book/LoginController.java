@@ -35,7 +35,8 @@ public class LoginController {
     String username = usernameField.getText();
     String password = passwordField.getText();
 
-    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
+    try (Connection conn = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
 
         // Step 1: Check if username exists
         String checkUserSql = "SELECT password_hash, id FROM users WHERE username = ?";
@@ -74,8 +75,6 @@ public class LoginController {
     }
 }
 
-
-    
     @FXML
     private void handleSignupLink(ActionEvent event) {
         try {
