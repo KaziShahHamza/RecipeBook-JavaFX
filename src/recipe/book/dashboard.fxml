@@ -1,118 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.DashboardController">
+<AnchorPane prefHeight="500.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="recipe.book.DashboardController"
+            stylesheets="@styles.css">
+
    <HBox layoutX="14.0" layoutY="14.0" prefHeight="475.0" prefWidth="780.0" spacing="10.0">
       <children>
-      
-          <VBox alignment="CENTER" prefHeight="475.0" prefWidth="652.0" spacing="10.0">
-    
-            <Label fx:id="welcomeLabel" style="-fx-font-size: 18px;" text="Welcome Text" />
-            <Label fx:id="welcomeLabel1" style="-fx-font-size: 16px;" text="Add your unique Recipe &amp; Share it with everyone" />
-            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-      
-                  <Label text="Recipe Name:  " />
-                  <TextField fx:id="recipeNameField" prefHeight="25.0" prefWidth="203.0" promptText="Enter Recipe Name" />
-               </children>
+         <VBox alignment="CENTER" prefHeight="475.0" prefWidth="652.0" spacing="10.0" styleClass="form-container">
+            <Label fx:id="welcomeLabel" text="Welcome Text" styleClass="heading-label"/>
+            <Label fx:id="welcomeLabel1" text="Add your unique Recipe &amp; Share it with everyone" styleClass="subheading-label"/>
+
+            <HBox spacing="10">
+               <Label text="Recipe Name:" />
+               <TextField fx:id="recipeNameField" promptText="Enter Recipe Name" styleClass="input-field"/>
             </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-      
-                  <Label alignment="TOP_RIGHT" text="Ingredients:  " />
-                  <TextArea fx:id="ingredientsField" prefHeight="39.0" prefWidth="205.0" promptText="Enter Ingredients" />
-               </children>
+
+            <HBox spacing="10">
+               <Label text="Ingredients:" />
+               <TextArea fx:id="ingredientsField" promptText="Enter Ingredients" prefRowCount="2" styleClass="textarea-field"/>
             </HBox>
 
             <Label text="Description:" />
-            <TextArea fx:id="descriptionField" prefHeight="78.0" prefWidth="300.0" promptText="Short Description" />
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-      
-                  <Label text="Category:  " />
-                  <HBox alignment="TOP_CENTER" spacing="10">
-                      <RadioButton fx:id="breakfastRadio" text="Breakfast">
-                        <toggleGroup>
-                           <ToggleGroup fx:id="categoryGroup" />
-                        </toggleGroup>
-                     </RadioButton>
-                      <RadioButton fx:id="lunchRadio" text="Lunch" toggleGroup="$categoryGroup" />
-                      <RadioButton fx:id="dinnerRadio" text="Dinner" toggleGroup="$categoryGroup" />
-                  </HBox>
-               </children>
+            <TextArea fx:id="descriptionField" promptText="Short Description" prefRowCount="3" styleClass="textarea-field"/>
+
+            <HBox spacing="10">
+               <Label text="Category:" />
+               <HBox spacing="10">
+                  <RadioButton fx:id="breakfastRadio" text="Breakfast" toggleGroup="$categoryGroup"/>
+                  <RadioButton fx:id="lunchRadio" text="Lunch" toggleGroup="$categoryGroup"/>
+                  <RadioButton fx:id="dinnerRadio" text="Dinner" toggleGroup="$categoryGroup"/>
+               </HBox>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-      
-                  <Label text="Budget (Taka):  " />
-                  <HBox spacing="10">
-                      <RadioButton fx:id="budget100" text="100–250">
-                        <toggleGroup>
-                           <ToggleGroup fx:id="budgetGroup" />
-                        </toggleGroup>
-                     </RadioButton>
-                      <RadioButton fx:id="budget250" text="250–500" toggleGroup="$budgetGroup" />
-                      <RadioButton fx:id="budget500" text="500+" toggleGroup="$budgetGroup" />
-                  </HBox>
-               </children>
+
+            <HBox spacing="10">
+               <Label text="Budget (Taka):" />
+               <HBox spacing="10">
+                  <RadioButton fx:id="budget100" text="100–250" toggleGroup="$budgetGroup"/>
+                  <RadioButton fx:id="budget250" text="250–500" toggleGroup="$budgetGroup"/>
+                  <RadioButton fx:id="budget500" text="500+" toggleGroup="$budgetGroup"/>
+               </HBox>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-      
-                  <Label text="Cooking Time (min):  " />
-                  <TextField fx:id="cookingTimeField" promptText="e.g. 30" />
-               </children>
+
+            <HBox spacing="10">
+               <Label text="Cooking Time (min):" />
+               <TextField fx:id="cookingTimeField" promptText="e.g. 30" styleClass="input-field"/>
             </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <children>
-      
-                  <Label text="Difficulty Level:  " />
-                  <HBox spacing="10">
-                      <RadioButton fx:id="easyRadio" text="Easy">
-                        <toggleGroup>
-                           <ToggleGroup fx:id="difficultyGroup" />
-                        </toggleGroup>
-                     </RadioButton>
-                      <RadioButton fx:id="mediumRadio" text="Medium" toggleGroup="$difficultyGroup" />
-                      <RadioButton fx:id="hardRadio" text="Hard" toggleGroup="$difficultyGroup" />
-                  </HBox>
-               </children>
+
+            <HBox spacing="10">
+               <Label text="Difficulty Level:" />
+               <HBox spacing="10">
+                  <RadioButton fx:id="easyRadio" text="Easy" toggleGroup="$difficultyGroup"/>
+                  <RadioButton fx:id="mediumRadio" text="Medium" toggleGroup="$difficultyGroup"/>
+                  <RadioButton fx:id="hardRadio" text="Hard" toggleGroup="$difficultyGroup"/>
+               </HBox>
             </HBox>
 
             <HBox alignment="CENTER" spacing="10">
-                <Button onAction="#handleSaveRecipe" text="Save" />
-                <Button onAction="#handleEditRecipe" text="Edit" />
-                <Button onAction="#handleDeleteRecipe" text="Delete" />
+               <Button onAction="#handleSaveRecipe" text="Save" styleClass="primary-button"/>
+               <Button onAction="#handleEditRecipe" text="Edit" styleClass="secondary-button"/>
+               <Button onAction="#handleDeleteRecipe" text="Delete" styleClass="danger-button"/>
             </HBox>
 
-            <Button onAction="#handleLogout" text="Logout" />
-            <Button onAction="#handleViewRecipes" text="View All Recipes" />
+            <Button onAction="#handleLogout" text="Logout" styleClass="secondary-button"/>
+            <Button onAction="#handleViewRecipes" text="View All Recipes" styleClass="info-button"/>
 
-            <Label fx:id="statusLabel" textFill="green" />
-        </VBox>
+            <Label fx:id="statusLabel" styleClass="status-label"/>
+         </VBox>
 
-           <TableView fx:id="recipeTable" prefHeight="476.0" prefWidth="801.0">
-                <columns>
-                    <TableColumn fx:id="colName" prefWidth="100" text="Recipe Name" />
-                    <TableColumn fx:id="colIngredients" prefWidth="120" text="Ingredients" />
-                    <TableColumn fx:id="colDescription" prefWidth="120" text="Description" />
-                    <TableColumn fx:id="colCategory" prefWidth="100" text="Category" />
-                    <TableColumn fx:id="colBudget" prefWidth="80" text="Budget" />
-                    <TableColumn fx:id="colTime" prefWidth="80" text="Time (min)" />
-                    <TableColumn fx:id="colDifficulty" prefWidth="100" text="Difficulty" />
-                </columns>
-            </TableView>
+         <TableView fx:id="recipeTable" prefHeight="476.0" prefWidth="801.0" styleClass="styled-table">
+            <columns>
+                <TableColumn fx:id="colName" prefWidth="100" text="Recipe Name" styleClass="table-column" />
+                <TableColumn fx:id="colIngredients" prefWidth="120" text="Ingredients" styleClass="table-column" />
+                <TableColumn fx:id="colDescription" prefWidth="120" text="Description" styleClass="table-column" />
+                <TableColumn fx:id="colCategory" prefWidth="100" text="Category" styleClass="table-column" />
+                <TableColumn fx:id="colBudget" prefWidth="80" text="Budget" styleClass="table-column" />
+                <TableColumn fx:id="colTime" prefWidth="80" text="Time (min)" styleClass="table-column" />
+                <TableColumn fx:id="colDifficulty" prefWidth="100" text="Difficulty" styleClass="table-column" />
+            </columns>
+        </TableView>
+
       </children>
    </HBox>
 

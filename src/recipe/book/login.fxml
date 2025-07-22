@@ -23,7 +23,6 @@
         <Label fx:id="errorLabel" textFill="red" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
 
         <Button onAction="#handleViewRecipes" text="View All Recipes" styleClass="info-button"/>
-        <Button onAction="#handleViewCardRecipes" text="View All Recipes (Cards)" styleClass="info-button"/>
 
     </VBox>
 

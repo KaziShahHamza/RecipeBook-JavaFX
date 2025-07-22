@@ -1,0 +1,90 @@
+/* styles.css */
+
+/* Root layout */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: linear-gradient(to bottom, #f8f9fa, #dee2e6);
+}
+
+/* Labels */
+.heading-label {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.subheading-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #495057;
+}
+
+.status-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: green;
+}
+
+/* Text Inputs */
+.input-field {
+    -fx-pref-width: 200px;
+    -fx-padding: 6px;
+    -fx-background-radius: 5;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-background-color: white;
+}
+
+.input-field:focused {
+    -fx-border-color: #007bff;
+}
+
+.textarea-field {
+    -fx-pref-width: 300px;
+    -fx-padding: 6px;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-background-color: white;
+}
+
+/* Buttons */
+.primary-button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-pref-width: 90px;
+}
+
+.secondary-button {
+    -fx-background-color: #6c757d;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-pref-width: 90px;
+}
+
+.danger-button {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-pref-width: 90px;
+}
+
+.info-button {
+    -fx-background-color: #17a2b8;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-pref-width: 120px;
+}
+
+.button:hover {
+    -fx-opacity: 0.85;
+    -fx-cursor: hand;
+}
+
+/* Table */
+.styled-table {
+    -fx-border-color: #ced4da;
+    -fx-table-cell-border-color: #dee2e6;
+    -fx-background-color: white;
+    -fx-selection-bar: #007bff;
+}
+

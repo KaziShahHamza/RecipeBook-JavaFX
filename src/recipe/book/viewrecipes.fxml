@@ -6,7 +6,9 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0"
             xmlns="http://javafx.com/javafx/20.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="recipe.book.ViewRecipesController">
+            fx:controller="recipe.book.ViewRecipesController"
+            stylesheets="@signup.css"
+>
 
     <VBox alignment="TOP_CENTER" spacing="10.0" layoutX="25.0" layoutY="10.0" prefWidth="750">
         <Label style="-fx-font-size: 20px;" text="All Recipes" />

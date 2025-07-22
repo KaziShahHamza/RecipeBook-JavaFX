@@ -53,6 +53,7 @@ public class ViewRecipesController {
 
         loadRecipes();
         setupSearchFilter();
+        
     }
 
     private void loadRecipes() {
@@ -94,36 +95,24 @@ public class ViewRecipesController {
     
     @FXML
     private void handleFilter(ActionEvent event) {
-        filteredData.setPredicate(recipe -> {
-            boolean matchCategory = !(
-                (!catBreakfast.isSelected() && recipe.getCategory().equalsIgnoreCase("Breakfast")) ||
-                (!catLunch.isSelected() && recipe.getCategory().equalsIgnoreCase("Lunch")) ||
-                (!catDinner.isSelected() && recipe.getCategory().equalsIgnoreCase("Dinner"))
-            );
+        try {
+            filteredData.setPredicate(recipe -> {
+                if (recipe == null || recipe.getBudget() == null) return false;
 
-            boolean matchBudget = !(
-                (!budget100.isSelected() && recipe.getBudget().equalsIgnoreCase("100-250")) ||
-                (!budget250.isSelected() && recipe.getBudget().equalsIgnoreCase("250-500")) ||
-                (!budget500.isSelected() && recipe.getBudget().equalsIgnoreCase("500+"))
-            );
+                String budget = recipe.getBudget().trim().replaceAll("\\s+", "");
 
-            boolean matchDifficulty = !(
-                (!diffEasy.isSelected() && recipe.getDifficulty().equalsIgnoreCase("Easy")) ||
-                (!diffMedium.isSelected() && recipe.getDifficulty().equalsIgnoreCase("Medium")) ||
-                (!diffHard.isSelected() && recipe.getDifficulty().equalsIgnoreCase("Hard"))
-            );
+                if (!budget100.isSelected() && !budget250.isSelected() && !budget500.isSelected()) {
+                    return true; // No filter, show all
+                }
 
-            boolean matchTime = true;
-            try {
-                int min = minTimeField.getText().isEmpty() ? Integer.MIN_VALUE : Integer.parseInt(minTimeField.getText());
-                int max = maxTimeField.getText().isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(maxTimeField.getText());
-                matchTime = recipe.getCookingTime() >= min && recipe.getCookingTime() <= max;
-            } catch (NumberFormatException e) {
-                // Ignore, keep default range
-            }
+                return (budget100.isSelected() && budget.contains("100") && budget.contains("250")) ||
+                       (budget250.isSelected() && budget.contains("250") && budget.contains("500")) ||
+                       (budget500.isSelected() && budget.contains("500+"));
+            });
 
-            return matchCategory && matchBudget && matchDifficulty && matchTime;
-        });
+        } catch (Exception e) {
+            e.printStackTrace(); // Show real error in console
+        }
     }
 
     @FXML
