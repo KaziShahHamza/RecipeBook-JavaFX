@@ -93,27 +93,66 @@ public class ViewRecipesController {
         });
     }
     
-    @FXML
-    private void handleFilter(ActionEvent event) {
-        try {
-            filteredData.setPredicate(recipe -> {
-                if (recipe == null || recipe.getBudget() == null) return false;
+@FXML
+private void handleFilter(ActionEvent event) {
+    try {
+        ObservableList<Recipe> filtered = FXCollections.observableArrayList();
 
-                String budget = recipe.getBudget().trim().replaceAll("\\s+", "");
+        for (Recipe r : recipeList) {
+            boolean matchesCategory = false;
+            boolean matchesDifficulty = false;
+            boolean matchesTime = false;
+            boolean matchesSearch = false;
 
-                if (!budget100.isSelected() && !budget250.isSelected() && !budget500.isSelected()) {
-                    return true; // No filter, show all
-                }
+            // Category
+            if (!catBreakfast.isSelected() && !catLunch.isSelected() && !catDinner.isSelected()) {
+                matchesCategory = true;
+            } else {
+                String category = r.getCategory() != null ? r.getCategory().toLowerCase() : "";
 
-                return (budget100.isSelected() && budget.contains("100") && budget.contains("250")) ||
-                       (budget250.isSelected() && budget.contains("250") && budget.contains("500")) ||
-                       (budget500.isSelected() && budget.contains("500+"));
-            });
+                if (catBreakfast.isSelected() && category.equals("breakfast")) matchesCategory = true;
+                if (catLunch.isSelected() && category.equals("lunch")) matchesCategory = true;
+                if (catDinner.isSelected() && category.equals("dinner")) matchesCategory = true;
+            }
 
-        } catch (Exception e) {
-            e.printStackTrace(); // Show real error in console
+
+            // Difficulty
+            if (!diffEasy.isSelected() && !diffMedium.isSelected() && !diffHard.isSelected()) {
+                matchesDifficulty = true;
+            } else {
+                String difficulty = r.getDifficulty() != null ? r.getDifficulty().toLowerCase() : "";
+
+                if (diffEasy.isSelected() && difficulty.equals("easy")) matchesDifficulty = true;
+                if (diffMedium.isSelected() && difficulty.equals("medium")) matchesDifficulty = true;
+                if (diffHard.isSelected() && difficulty.equals("hard")) matchesDifficulty = true;
+            }
+
+
+            // Cooking Time
+            try {
+                int minTime = minTimeField.getText().isEmpty() ? 0 : Integer.parseInt(minTimeField.getText());
+                int maxTime = maxTimeField.getText().isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(maxTimeField.getText());
+                int recipeTime = r.getCookingTime();
+                matchesTime = (recipeTime >= minTime && recipeTime <= maxTime);
+            } catch (NumberFormatException e) {
+                matchesTime = true; // Ignore invalid input
+            }
+
+            // Search
+            String search = searchField.getText().toLowerCase().trim();
+            matchesSearch = search.isEmpty() || r.getName().toLowerCase().contains(search);
+
+            if (matchesCategory && matchesDifficulty && matchesTime && matchesSearch) {
+                filtered.add(r);
+            }
         }
+
+        recipeTable.setItems(filtered);
+    } catch (Exception e) {
+        e.printStackTrace(); // Print the real error to the console
     }
+}
+
 
     @FXML
     private void handleReset(ActionEvent event) {
