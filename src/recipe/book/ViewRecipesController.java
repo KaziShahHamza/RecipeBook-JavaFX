@@ -21,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Node;
 import javafx.fxml.FXMLLoader;
 import java.sql.*;
+import static java.time.Clock.system;
 import javafx.scene.control.TextField;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -93,65 +94,79 @@ public class ViewRecipesController {
         });
     }
     
-@FXML
-private void handleFilter(ActionEvent event) {
-    try {
-        ObservableList<Recipe> filtered = FXCollections.observableArrayList();
+    @FXML
+    private void handleFilter(ActionEvent event) {
+        try {
+            ObservableList<Recipe> filtered = FXCollections.observableArrayList();
 
-        for (Recipe r : recipeList) {
-            boolean matchesCategory = false;
-            boolean matchesDifficulty = false;
-            boolean matchesTime = false;
-            boolean matchesSearch = false;
+            for (Recipe r : recipeList) {
+                boolean matchesCategory = false;
+                boolean matchesDifficulty = false;
+                boolean matchesTime = false;
+                boolean matchesSearch = false;
+                boolean matchesBudget = false;
 
-            // Category
-            if (!catBreakfast.isSelected() && !catLunch.isSelected() && !catDinner.isSelected()) {
-                matchesCategory = true;
-            } else {
-                String category = r.getCategory() != null ? r.getCategory().toLowerCase() : "";
+                // Category
+                if (!catBreakfast.isSelected() && !catLunch.isSelected() && !catDinner.isSelected()) {
+                    matchesCategory = true;
+                } else {
+                    String category = r.getCategory() != null ? r.getCategory().toLowerCase() : "";
 
-                if (catBreakfast.isSelected() && category.equals("breakfast")) matchesCategory = true;
-                if (catLunch.isSelected() && category.equals("lunch")) matchesCategory = true;
-                if (catDinner.isSelected() && category.equals("dinner")) matchesCategory = true;
+                    if (catBreakfast.isSelected() && category.equals("breakfast")) matchesCategory = true;
+                    if (catLunch.isSelected() && category.equals("lunch")) matchesCategory = true;
+                    if (catDinner.isSelected() && category.equals("dinner")) matchesCategory = true;
+                }
+
+
+                // Difficulty
+                if (!diffEasy.isSelected() && !diffMedium.isSelected() && !diffHard.isSelected()) {
+                    matchesDifficulty = true;
+                } else {
+                    String difficulty = r.getDifficulty() != null ? r.getDifficulty().toLowerCase() : "";
+
+                    if (diffEasy.isSelected() && difficulty.equals("easy")) matchesDifficulty = true;
+                    if (diffMedium.isSelected() && difficulty.equals("medium")) matchesDifficulty = true;
+                    if (diffHard.isSelected() && difficulty.equals("hard")) matchesDifficulty = true;
+                }
+                
+                
+                 // === BUDGET ===
+                if (!budget100.isSelected() && !budget250.isSelected() && !budget500.isSelected()) {
+                    matchesBudget = true;
+                } else {
+                    String budget = r.getBudget() != null ? r.getBudget() : "";
+//                    System.out.println("budget: " + budget);
+
+                    if (budget100.isSelected() && budget.contains("100") && budget.contains("250")) matchesBudget = true;
+                    if (budget250.isSelected() && budget.contains("250") && budget.contains("500")) matchesBudget = true;
+                    if (budget500.isSelected() && budget.contains("500+")) matchesBudget = true;
+                }
+
+
+                // Cooking Time
+                try {
+                    int minTime = minTimeField.getText().isEmpty() ? 0 : Integer.parseInt(minTimeField.getText());
+                    int maxTime = maxTimeField.getText().isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(maxTimeField.getText());
+                    int recipeTime = r.getCookingTime();
+                    matchesTime = (recipeTime >= minTime && recipeTime <= maxTime);
+                } catch (NumberFormatException e) {
+                    matchesTime = true; // Ignore invalid input
+                }
+
+                // Search
+                String search = searchField.getText().toLowerCase().trim();
+                matchesSearch = search.isEmpty() || r.getName().toLowerCase().contains(search);
+    
+                if (matchesCategory && matchesDifficulty && matchesTime && matchesSearch && matchesBudget) {
+                    filtered.add(r);
+                }
             }
-
-
-            // Difficulty
-            if (!diffEasy.isSelected() && !diffMedium.isSelected() && !diffHard.isSelected()) {
-                matchesDifficulty = true;
-            } else {
-                String difficulty = r.getDifficulty() != null ? r.getDifficulty().toLowerCase() : "";
-
-                if (diffEasy.isSelected() && difficulty.equals("easy")) matchesDifficulty = true;
-                if (diffMedium.isSelected() && difficulty.equals("medium")) matchesDifficulty = true;
-                if (diffHard.isSelected() && difficulty.equals("hard")) matchesDifficulty = true;
-            }
-
-
-            // Cooking Time
-            try {
-                int minTime = minTimeField.getText().isEmpty() ? 0 : Integer.parseInt(minTimeField.getText());
-                int maxTime = maxTimeField.getText().isEmpty() ? Integer.MAX_VALUE : Integer.parseInt(maxTimeField.getText());
-                int recipeTime = r.getCookingTime();
-                matchesTime = (recipeTime >= minTime && recipeTime <= maxTime);
-            } catch (NumberFormatException e) {
-                matchesTime = true; // Ignore invalid input
-            }
-
-            // Search
-            String search = searchField.getText().toLowerCase().trim();
-            matchesSearch = search.isEmpty() || r.getName().toLowerCase().contains(search);
-
-            if (matchesCategory && matchesDifficulty && matchesTime && matchesSearch) {
-                filtered.add(r);
-            }
+            
+            recipeTable.setItems(filtered);
+        } catch (Exception e) {
+            e.printStackTrace(); // Print the real error to the console
         }
-
-        recipeTable.setItems(filtered);
-    } catch (Exception e) {
-        e.printStackTrace(); // Print the real error to the console
     }
-}
 
 
     @FXML
@@ -173,6 +188,7 @@ private void handleFilter(ActionEvent event) {
         maxTimeField.clear();
 
         filteredData.setPredicate(r -> true);
+        loadRecipes();
     }
 
 
