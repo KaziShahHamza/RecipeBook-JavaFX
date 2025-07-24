@@ -102,17 +102,18 @@ public class LoginController {
     }
     
     @FXML
-    private void handleViewCardRecipes(ActionEvent event) {
+    private void handleViewCards(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("viewcardrecipes.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setTitle("All Recipes - Card View");
-            stage.setScene(new Scene(root));
+            Parent root = FXMLLoader.load(getClass().getResource("recipescards.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Recipe Cards");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 }
