@@ -1,6 +1,12 @@
 package recipe.book;
 
+import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
@@ -22,9 +28,15 @@ public class RecipeDetailsController {
     }
 
     @FXML
-    private void handleBack() {
-        // Close the detail window
-        Stage stage = (Stage) nameLabel.getScene().getWindow();
-        stage.close();
+    private void handleBack(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("recipescards.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

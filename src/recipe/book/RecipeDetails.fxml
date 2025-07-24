@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="366.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.RecipeDetailsController">
+<AnchorPane prefHeight="366.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/20.0.1" 
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.RecipeDetailsController">
 
     <VBox layoutX="13.0" layoutY="14.0">
         <Label fx:id="nameLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;" />

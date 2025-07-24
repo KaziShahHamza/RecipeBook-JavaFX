@@ -1,5 +1,6 @@
 package recipe.book;
 
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -80,27 +81,38 @@ private VBox createRecipeCard(String name, String description, String category, 
 
     card.getChildren().addAll(nameLabel, descLabel, categoryLabel, budgetLabel, timeLabel, difficultyLabel, ingredientsLabel);
 
-    // 👉 Set click handler to open full recipe in a new window
     card.setOnMouseClicked(event -> {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("RecipeDetails.fxml"));
             Parent detailRoot = loader.load();
 
+            // Get controller and set the selected recipe
             RecipeDetailsController controller = loader.getController();
             controller.setRecipe(new Recipe(0, name, ingredients, description, category, budget, time, difficulty));
 
-            Stage stage = new Stage();
-            stage.setTitle("Recipe Details - " + name);
+            // Replace current scene with detail scene
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(detailRoot));
-            stage.show();
+            stage.setTitle("Recipe Details - " + name);
         } catch (Exception e) {
             e.printStackTrace();
         }
     });
 
+
     return card;
 }
 
+@FXML
+private void handleLogin(ActionEvent event) {
+    try {
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 
 
 private String shorten(String text, int maxLength) {
