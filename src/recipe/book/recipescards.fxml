@@ -44,6 +44,22 @@
         <Button fx:id="filterButton" onAction="#handleFilter" text="Filter" />
         <Button fx:id="resetButton" onAction="#handleReset" text="Reset" />
     </VBox>
+    
+    <!-- Budget Filter -->
+<VBox spacing="5">
+    <Label text="Budget"/>
+    <CheckBox fx:id="budget100" text="100–250"/>
+    <CheckBox fx:id="budget250" text="250–500"/>
+    <CheckBox fx:id="budget500" text="500+"/>
+</VBox>
+
+<!-- Cooking Time Filter -->
+<VBox spacing="5">
+    <Label text="Cooking Time (min)"/>
+    <TextField fx:id="minTimeField" promptText="Min" prefWidth="60"/>
+    <TextField fx:id="maxTimeField" promptText="Max" prefWidth="60"/>
+</VBox>
+
 </HBox>
 
         
