@@ -91,12 +91,12 @@ public class RecipeCardsController {
 
                 // Get controller and set the selected recipe
                 RecipeDetailsController controller = loader.getController();
-                controller.setRecipe(new Recipe(0, name, ingredients, description, category, budget, time, difficulty));
+                controller.setRecipe(new Recipe(0, name, ingredients, description, category, budget, time, difficulty), "recipescards");
 
                 // Replace current scene with detail scene
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(detailRoot));
-                stage.setTitle("Recipe Details - " + name);
+                stage.setTitle("Recipe Details 1 - " + name);
             } catch (Exception e) {
                 e.printStackTrace();
             }

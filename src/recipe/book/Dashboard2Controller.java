@@ -296,19 +296,19 @@ private VBox createRecipeCard(Recipe recipe) {
     
     card.setOnMouseClicked(event -> {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("recipedetails2.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("RecipeDetails.fxml"));
                 Parent detailRoot = loader.load();
 
                 // Get controller and set the selected recipe
-                Recipedetails2Controller controller = loader.getController();
+                RecipeDetailsController controller = loader.getController();
                 controller.setRecipe(new Recipe(0, recipe.getName(), recipe.getIngredients(), 
                         recipe.getDescription(), recipe.getCategory(), 
-                        recipe.getBudget(), recipe.getCookingTime(), recipe.getDifficulty()));
+                        recipe.getBudget(), recipe.getCookingTime(), recipe.getDifficulty()), "dashboard2");
 
                 // Replace current scene with detail scene
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(detailRoot));
-                stage.setTitle("Recipe Details - " + recipe.getName());
+                stage.setTitle("Recipe Details 2 - " + recipe.getName());
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -16,9 +16,12 @@ public class RecipeDetailsController {
     @FXML private Label ingredientsLabel, descriptionLabel;
 
     private Recipe recipe;
+    private String previousPage;
 
-    public void setRecipe(Recipe recipe) {
+    public void setRecipe(Recipe recipe, String previousPage) {
         this.recipe = recipe;
+        this.previousPage = previousPage;
+        
         nameLabel.setText(recipe.getName());
         categoryLabel.setText("Category: " + recipe.getCategory());
         budgetLabel.setText("Budget: " + recipe.getBudget());
@@ -31,12 +34,17 @@ public class RecipeDetailsController {
     @FXML
     private void handleBack(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("recipescards.fxml"));
+            String fxmlToLoad = previousPage.equals("dashboard2") ? "dashboard2.fxml" : "recipescards.fxml";
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlToLoad));
             Parent root = loader.load();
+
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
+            stage.setTitle("Back");
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }
