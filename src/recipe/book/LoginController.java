@@ -57,6 +57,9 @@ public class LoginController {
             errorLabel.setText("Incorrect password.");
             return;
         }
+        
+        Session.loggedInUserId = userId;
+        Session.loggedInUsername = username;
 
         // Step 3: Load dashboard
         FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard2.fxml"));

@@ -20,19 +20,21 @@ import javafx.scene.control.*;
 
 
 public class RecipeCardsController {
-
-    @FXML
-    private FlowPane cardContainer;
+    @FXML private FlowPane cardContainer;
     @FXML private TextField searchField;
     @FXML private CheckBox catBreakfast, catLunch, catDinner;
     @FXML private CheckBox diffEasy, diffMedium, diffHard;
     @FXML private CheckBox budget100, budget250, budget500;
     @FXML private TextField minTimeField, maxTimeField;
+    @FXML private Button backButton;
 
-
-
-    @FXML
-    private void initialize() {
+    @FXML private void initialize() {
+        if (Session.isLoggedIn()) {
+            backButton.setText("Back to Home");
+        } else {
+            backButton.setText("Back to Login");
+        }
+        
         loadRecipeCards();
     }
 
@@ -122,16 +124,17 @@ public class RecipeCardsController {
     @FXML
     private void handleBack(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("dashboard2.fxml"));
-            Scene scene = new Scene(root);
+            String fxmlToLoad = Session.isLoggedIn() ? "dashboard2.fxml" : "login.fxml";
+            Parent root = FXMLLoader.load(getClass().getResource(fxmlToLoad));
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setTitle("Dashboard");
+            stage.setScene(new Scene(root));
+            stage.setTitle(Session.isLoggedIn() ? "Dashboard" : "Login");
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     
     @FXML
     private void handleSearch(ActionEvent event) {

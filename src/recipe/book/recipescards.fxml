@@ -99,9 +99,9 @@
          </children>
       </HBox>
 
-        <Button onAction="#handleBack" text="Back to Home">
-         <VBox.margin>
-            <Insets bottom="10.0" />
-         </VBox.margin></Button>
+        <Button fx:id="backButton" onAction="#handleBack">
+            <VBox.margin><Insets bottom="10.0" /></VBox.margin>
+        </Button>
+
     </VBox>
 </AnchorPane>

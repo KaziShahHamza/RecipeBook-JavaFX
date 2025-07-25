@@ -7,7 +7,6 @@
 
 <AnchorPane prefHeight="366.0" prefWidth="506.0" xmlns="http://javafx.com/javafx/20.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.RecipeDetailsController">
-
     <VBox layoutX="13.0" layoutY="14.0" spacing="8">
         <Label fx:id="nameLabel" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
         <Label fx:id="categoryLabel" />
@@ -23,5 +22,4 @@
 
         <Button onAction="#handleBack" text="Back" />
     </VBox>
-
 </AnchorPane>

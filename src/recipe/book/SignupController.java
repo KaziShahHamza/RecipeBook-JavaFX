@@ -9,6 +9,7 @@ package recipe.book;
  * @author LAPTOPBD
  */
 
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
@@ -30,21 +31,21 @@ public class SignupController {
     @FXML private Label statusLabel;
 
     @FXML
-    private void handleSignup(ActionEvent event) {
+private void handleSignup(ActionEvent event) {
     String username = usernameField.getText();
     String email = emailField.getText();
     String password = passwordField.getText();
-    
+
     if (username.isEmpty() || email.isEmpty() || password.isEmpty()) {
         statusLabel.setText("All fields are required.");
         return;
     }
-    
+
     if (!Validator.isEmailValid(email)) {
         statusLabel.setText("Invalid email format.");
         return;
     }
-    
+
     if (!Validator.isUsernameValid(username)) {
         statusLabel.setText("Username must be lowercase letters or numbers only.");
         return;
@@ -54,28 +55,47 @@ public class SignupController {
         statusLabel.setText("Password must be min 8 characters, contain uppercase, lowercase, number, and symbol.");
         return;
     }
-    
+
     if (isUsernameOrEmailTaken(username, email)) {
         statusLabel.setText("Username or Email already exists.");
         return;
     }
 
-    
-
     String hashedPassword = HashUtil.hashPassword(password);
 
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
         String sql = "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
-        PreparedStatement stmt = conn.prepareStatement(sql);
+        PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         stmt.setString(1, username);
         stmt.setString(2, email);
         stmt.setString(3, hashedPassword);
         stmt.executeUpdate();
 
-        statusLabel.setText("✅ Signup successful!");
+        // Get generated user ID
+        ResultSet generatedKeys = stmt.getGeneratedKeys();
+        int userId = -1;
+        if (generatedKeys.next()) {
+            userId = generatedKeys.getInt(1);
+        }
+
+        // ✅ Load dashboard2.fxml and pass user ID
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard2.fxml"));
+        Parent dashboardRoot = loader.load();
+
+        Dashboard2Controller controller = loader.getController();
+        controller.setUser(userId, username);  // you must define this method in Dashboard2Controller
+
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(dashboardRoot));
+        stage.setTitle("Dashboard");
+        stage.show();
+
     } catch (SQLException e) {
         e.printStackTrace();
         statusLabel.setText("❌ Signup failed. Username may exist.");
+    } catch (IOException e) {
+        e.printStackTrace();
+        statusLabel.setText("❌ Failed to load dashboard.");
     }
 }
 

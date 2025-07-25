@@ -208,6 +208,7 @@ public class Dashboard2Controller  {
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
+            Session.logout();
             Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
