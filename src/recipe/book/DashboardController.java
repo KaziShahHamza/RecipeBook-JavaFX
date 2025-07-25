@@ -21,6 +21,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.scene.Node;
 import java.sql.*;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
+
 
 public class DashboardController {
     @FXML private Label welcomeLabel;
@@ -28,8 +31,8 @@ public class DashboardController {
     @FXML private TextArea ingredientsField;
     @FXML private Label statusLabel;
     
-    private int userId;
-    private String username;
+    @FXML private int userId;
+    @FXML private String username;
     
     @FXML private TextArea descriptionField;
     @FXML private RadioButton breakfastRadio, lunchRadio, dinnerRadio;
@@ -43,9 +46,12 @@ public class DashboardController {
     @FXML private TableColumn<Recipe, Integer> colTime;
 
     
-    private Recipe selectedRecipe = null;
+    @FXML private Recipe selectedRecipe = null;
 
     private ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
+    
+    @FXML
+    private FlowPane cardContainer2;
 
 
     public void setUser(int id, String name) {
@@ -194,7 +200,6 @@ public class DashboardController {
             }
         }
     }
-
     
     @FXML
     private void handleEditRecipe(ActionEvent event) {
@@ -270,7 +275,8 @@ public class DashboardController {
     ObservableList<Recipe> recipeList = FXCollections.observableArrayList();
 
     try (Connection conn = getConnection();
-         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM recipes WHERE user_id = ?")) {
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM recipes WHERE user_id = ?")) {
+        System.out.println("Entered loadRecipesFromDatabase.");
 
         stmt.setInt(1, userId);
         ResultSet rs = stmt.executeQuery();
@@ -290,10 +296,72 @@ public class DashboardController {
 
         recipeTable.setItems(recipeList);
 
-    } catch (SQLException e) {
-        e.printStackTrace();
+//            while (rs.next()) {
+//                String name = rs.getString("name");
+//                String description = rs.getString("description");
+//                String ingredients = rs.getString("ingredients");
+//                String category = rs.getString("category");
+//                String budget = rs.getString("budget");
+//                int time = rs.getInt("cooking_time");
+//                String difficulty = rs.getString("difficulty");
+//
+//                VBox card = createRecipeCard(name, description, category, budget, time, difficulty, ingredients);
+//
+//                cardContainer2.getChildren().add(card);
+//            }
+
+        } catch (SQLException e) {
+            System.out.println("Error from loadRecipesFromDatabase.");
+            e.printStackTrace();
+        }
     }
-}
+    
+        private VBox createRecipeCard(String name, String description, String category, String budget, int time, String difficulty, String ingredients) {
+        VBox card = new VBox(6);
+        card.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
+        card.setPrefSize(200, 180);
+        card.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 8; -fx-background-radius: 8;");
+
+        Label nameLabel = new Label(name);
+        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        Label ingredientsLabel = new Label(ingredients);
+
+        Label descLabel = new Label(shorten(description, 80));
+        descLabel.setWrapText(true);
+
+        Label categoryLabel = new Label("Category: " + (category != null ? category : "N/A"));
+        Label budgetLabel = new Label("Budget: " + (budget != null ? budget : "N/A"));
+        Label timeLabel = new Label("Time: " + time + " min");
+        Label difficultyLabel = new Label("Difficulty: " + (difficulty != null ? difficulty : "N/A"));
+
+        card.getChildren().addAll(nameLabel, descLabel, categoryLabel,
+                budgetLabel, timeLabel, difficultyLabel, ingredientsLabel);
+
+//        card.setOnMouseClicked(event -> {
+//            try {
+//                FXMLLoader loader = new FXMLLoader(getClass().getResource("RecipeDetails.fxml"));
+//                Parent detailRoot = loader.load();
+//
+//                // Get controller and set the selected recipe
+//                RecipeDetailsController controller = loader.getController();
+//                controller.setRecipe(new Recipe(0, name, ingredients, description, category, budget, time, difficulty));
+//
+//                // Replace current scene with detail scene
+//                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//                stage.setScene(new Scene(detailRoot));
+//                stage.setTitle("Recipe Details - " + name);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        });
+        return card;
+    }
+
+    private String shorten(String text, int maxLength) {
+        if (text == null) return "No description.";
+        return text.length() <= maxLength ? text : text.substring(0, maxLength) + "...";
+    }
+
 
     
     public Connection getConnection() {
@@ -333,5 +401,7 @@ public class DashboardController {
             e.printStackTrace();
         }
     }
+    
+    
 }
 

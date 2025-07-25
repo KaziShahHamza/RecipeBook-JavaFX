@@ -36,6 +36,7 @@ public class RecipeCardsController {
         loadRecipeCards();
     }
 
+    @FXML
     private void loadRecipeCards() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password");
              Statement stmt = conn.createStatement();
@@ -98,8 +99,6 @@ public class RecipeCardsController {
                 e.printStackTrace();
             }
         });
-
-
         return card;
     }
 
@@ -120,12 +119,10 @@ public class RecipeCardsController {
         return text.length() <= maxLength ? text : text.substring(0, maxLength) + "...";
     }
 
-
-
     @FXML
     private void handleBack(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("dashboard.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("dashboard2.fxml"));
             Scene scene = new Scene(root);
             Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500.0" prefWidth="800.0" stylesheets="@styles.css" 
+<AnchorPane prefHeight="552.0" prefWidth="619.0" style="-fx-background-color: #f4f4f4;" 
             xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="recipe.book.DashboardController">
+            fx:controller="recipe.book.Dashboard2Controller">
 
-   <HBox layoutX="10.0" layoutY="7.0" prefHeight="475.0" prefWidth="780.0" spacing="10.0">
+    <HBox layoutX="10.0" layoutY="7.0" prefHeight="475.0" prefWidth="780.0" spacing="10.0">
       <children>
          <VBox alignment="CENTER" prefHeight="475.0" prefWidth="652.0" spacing="10.0" styleClass="form-container">
             <Label fx:id="welcomeLabel" styleClass="heading-label" text="Welcome Text" />
@@ -78,8 +77,8 @@
 
             <HBox alignment="CENTER" spacing="10">
                <Button onAction="#handleSaveRecipe" styleClass="primary-button" text="Save" />
-               <Button onAction="#handleEditRecipe" styleClass="secondary-button" text="Edit" />
-               <Button onAction="#handleDeleteRecipe" styleClass="danger-button" text="Delete" />
+               <!--<Button onAction="#handleEditRecipe" styleClass="secondary-button" text="Edit" />-->
+               <!--<Button onAction="#handleDeleteRecipe" styleClass="danger-button" text="Delete" />-->
             </HBox>
 
             <Button onAction="#handleLogout" styleClass="secondary-button" text="Logout" />
@@ -88,23 +87,12 @@
             <Label fx:id="statusLabel" styleClass="status-label" />
          </VBox>
 
-         <TableView fx:id="recipeTable" prefHeight="476.0" prefWidth="801.0" styleClass="styled-table">
-            <columns>
-                <TableColumn fx:id="colName" prefWidth="100" text="Recipe Name" styleClass="table-column" />
-                <TableColumn fx:id="colIngredients" prefWidth="120" text="Ingredients" styleClass="table-column" />
-                <TableColumn fx:id="colDescription" prefWidth="120" text="Description" styleClass="table-column" />
-                <TableColumn fx:id="colCategory" prefWidth="100" text="Category" styleClass="table-column" />
-                <TableColumn fx:id="colBudget" prefWidth="80" text="Budget" styleClass="table-column" />
-                <TableColumn fx:id="colTime" prefWidth="80" text="Time (min)" styleClass="table-column" />
-                <TableColumn fx:id="colDifficulty" prefWidth="100" text="Difficulty" styleClass="table-column" />
-            </columns>
-        </TableView>
+         
         
-<!--            <ScrollPane fitToWidth="true">
-                <FlowPane fx:id="cardContainer2" prefHeight="477.0" prefWidth="809.0" />
-            </ScrollPane>-->
+            <ScrollPane fitToWidth="true">
+                <FlowPane fx:id="cardContainer" prefHeight="477.0" prefWidth="809.0" />
+            </ScrollPane>
 
       </children>
    </HBox>
-
 </AnchorPane>
