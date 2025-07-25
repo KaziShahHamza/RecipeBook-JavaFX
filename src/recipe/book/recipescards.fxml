@@ -18,8 +18,12 @@
         
         <HBox alignment="CENTER_RIGHT" spacing="150.0">
            <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Recipes Gallery" />
-            <Button fx:id="loginButton" onAction="#handleLogin" prefHeight="25.0" prefWidth="98.0" text="Login/Signup" />
-         <opaqueInsets>
+                <HBox spacing="10" layoutX="14.0" layoutY="14.0">
+                    <Label fx:id="usernameLabel" text="" visible="false" />
+                    <Button fx:id="loginButton" onAction="#handleLogin" prefHeight="25.0" prefWidth="98.0" text="Login/Signup" />
+                    <Button fx:id="logoutButton" onAction="#handleLogout" text="Logout" visible="false" />
+                </HBox>
+           <opaqueInsets>
             <Insets right="20.0" />
          </opaqueInsets>
          <padding>

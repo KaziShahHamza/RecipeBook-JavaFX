@@ -27,11 +27,26 @@ public class RecipeCardsController {
     @FXML private CheckBox budget100, budget250, budget500;
     @FXML private TextField minTimeField, maxTimeField;
     @FXML private Button backButton;
+    @FXML
+    private Label usernameLabel;
 
+    @FXML
+    private Button loginButton;
+
+    @FXML
+    private Button logoutButton;
+    
     @FXML private void initialize() {
         if (Session.isLoggedIn()) {
             backButton.setText("Back to Home");
+            usernameLabel.setText("👤 " + Session.loggedInUsername);
+            usernameLabel.setVisible(true);
+            loginButton.setVisible(false);
+            logoutButton.setVisible(true);
         } else {
+            usernameLabel.setVisible(false);
+            loginButton.setVisible(true);
+            logoutButton.setVisible(false);
             backButton.setText("Back to Login");
         }
         
@@ -115,6 +130,20 @@ public class RecipeCardsController {
         }
     }
 
+    @FXML
+    private void handleLogout(ActionEvent event) {
+        Session.logout();
+        // Refresh the page after logout to update view
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("recipescards.fxml"));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("All Recipes");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     private String shorten(String text, int maxLength) {
         if (text == null) return "No description.";
