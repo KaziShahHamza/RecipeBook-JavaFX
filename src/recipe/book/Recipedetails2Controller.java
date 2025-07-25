@@ -7,12 +7,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class Recipedetails2Controller {
+
     @FXML private Label nameLabel, categoryLabel, budgetLabel, timeLabel, difficultyLabel;
-    @FXML private TextArea ingredientsArea, descriptionArea;
+    @FXML private Label ingredientsLabel, descriptionLabel;
 
     private Recipe recipe;
 
@@ -23,8 +24,8 @@ public class Recipedetails2Controller {
         budgetLabel.setText("Budget: " + recipe.getBudget());
         timeLabel.setText("Cooking Time: " + recipe.getCookingTime() + " min");
         difficultyLabel.setText("Difficulty: " + recipe.getDifficulty());
-        ingredientsArea.setText(recipe.getIngredients());
-        descriptionArea.setText(recipe.getDescription());
+        ingredientsLabel.setText(recipe.getIngredients());
+        descriptionLabel.setText(recipe.getDescription());
     }
 
     @FXML
@@ -38,5 +39,4 @@ public class Recipedetails2Controller {
             e.printStackTrace();
         }
     }
-
 }

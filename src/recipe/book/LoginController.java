@@ -61,7 +61,7 @@ public class LoginController {
         // Step 3: Load dashboard
         FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard2.fxml"));
         Parent root = loader.load();
-        DashboardController dashboardController = loader.getController();
+        Dashboard2Controller dashboardController = loader.getController();
         dashboardController.setUser(userId, username);
 
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
