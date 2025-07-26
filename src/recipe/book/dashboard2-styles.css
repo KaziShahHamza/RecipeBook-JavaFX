@@ -1,0 +1,41 @@
+.root {
+    -fx-background-color: #FDEBD0;
+}
+
+.heading-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #D35400;
+}
+
+.subheading-label {
+    -fx-font-size: 16px;
+    -fx-text-fill: #4E342E;
+}
+
+.input-field, .textarea-field {
+    -fx-background-color: #fff3e0;
+    -fx-border-color: #D35400;
+    -fx-text-fill: #4E342E;
+}
+
+.primary-button {
+    -fx-background-color: #F39C12;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.secondary-button {
+    -fx-background-color: #A04000;
+    -fx-text-fill: white;
+}
+
+.info-button {
+    -fx-background-color: #D35400;
+    -fx-text-fill: white;
+}
+
+.status-label {
+    -fx-text-fill: #4E342E;
+    -fx-font-style: italic;
+}

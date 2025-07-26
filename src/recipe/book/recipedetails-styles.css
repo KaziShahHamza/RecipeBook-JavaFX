@@ -1,0 +1,60 @@
+.root-pane {
+    -fx-background-color: #FDEBD0;
+    -fx-padding: 5;
+}
+
+.main-container {
+    -fx-padding: 10;
+}
+
+.info-box {
+    -fx-background-color: #fff5e6;
+    -fx-border-color: #D35400;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 5;
+}
+
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #D35400;
+}
+
+.detail-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #4E342E;
+    -fx-font-weight: 600;
+}
+
+.section-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #A04000;
+    -fx-padding: 5 0 0 0;
+}
+
+.text-label {
+    -fx-text-fill: #4E342E;
+    -fx-font-size: 13px;
+}
+
+.button-back {
+    -fx-background-color: #F39C12;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 5;
+    -fx-cursor: hand;
+    -fx-margin-top: 15;
+}
+
+.button-back:hover {
+    -fx-background-color: #D35400;
+}
+
+.recipe-image {
+    -fx-effect: dropshadow( gaussian , rgba(163,77,0,0.4) , 12,0.5,0,0 );
+    -fx-border-color: #A04000;
+    -fx-border-width: 2;
+    -fx-border-radius: 8;
+}

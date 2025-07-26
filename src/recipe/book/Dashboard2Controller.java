@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import java.sql.*;
+import java.util.List;
 import java.util.UUID;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -283,26 +284,40 @@ public class Dashboard2Controller  {
     private VBox createRecipeCard(Recipe recipe) {
         VBox card = new VBox(6);
         card.setPadding(new Insets(10));
-        card.setPrefSize(200, 200);
-        card.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 8; -fx-background-radius: 8;");
-
+        card.setPrefSize(200, 250);
+        card.setStyle("""
+            -fx-background-color: #ffffff;
+            -fx-border-color: #D35400;
+            -fx-border-radius: 10;
+            -fx-background-radius: 10;
+            -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 2, 2);
+        """);
+        
         Label nameLabel = new Label(recipe.getName());
-        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #A04000;");
+
         Label descLabel = new Label(shorten(recipe.getDescription(), 80));
         descLabel.setWrapText(true);
+        descLabel.setStyle("-fx-text-fill: #4E342E;");
+
         Label ingredientsLabel = new Label("Ingredients: " + recipe.getIngredients());
+        ingredientsLabel.setStyle("-fx-text-fill: #4E342E;");
+
         Label categoryLabel = new Label("Category: " + recipe.getCategory());
         Label budgetLabel = new Label("Budget: " + recipe.getBudget());
         Label timeLabel = new Label("Time: " + recipe.getCookingTime() + " min");
         Label difficultyLabel = new Label("Difficulty: " + recipe.getDifficulty());
 
+        for (Label label : List.of(categoryLabel, budgetLabel, timeLabel, difficultyLabel)) {
+            label.setStyle("-fx-font-size: 12px; -fx-text-fill: #4E342E;");
+        }
+
         Button editBtn = new Button("Edit");
-        editBtn.setStyle("-fx-background-color: #f0ad4e; -fx-text-fill: white;");
-        editBtn.setOnAction(e -> loadRecipeIntoForm(recipe));
+        editBtn.setStyle("-fx-background-color: #F39C12; -fx-text-fill: white; -fx-font-weight: bold;");
 
         Button deleteBtn = new Button("Delete");
-        deleteBtn.setStyle("-fx-background-color: #d9534f; -fx-text-fill: white;");
-        deleteBtn.setOnAction(e -> deleteRecipe(recipe));
+        deleteBtn.setStyle("-fx-background-color: #A04000; -fx-text-fill: white; -fx-font-weight: bold;");
+
 
         HBox buttonBox = new HBox(10, editBtn, deleteBtn);
 

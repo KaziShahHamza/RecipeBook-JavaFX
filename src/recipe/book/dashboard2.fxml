@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
@@ -7,100 +8,114 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.image.ImageView?>
 
-<AnchorPane prefHeight="601.0" prefWidth="941.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.Dashboard2Controller">
+<AnchorPane prefHeight="601.0" prefWidth="800.0" style="-fx-background-color: #FDEBD0;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.Dashboard2Controller">
 
     <HBox layoutX="10.0" layoutY="7.0" prefHeight="588.0" prefWidth="926.0" spacing="10.0">
-      <children>
-         <VBox alignment="CENTER" prefHeight="475.0" prefWidth="652.0" spacing="10.0" styleClass="form-container">
-            <Label fx:id="welcomeLabel" styleClass="heading-label" text="Welcome Text" />
-            <Label fx:id="welcomeLabel1" styleClass="subheading-label" text="Add your unique Recipe &amp; Share it with everyone" />
+        <children>
+            <!-- LEFT FORM SECTION -->
+            <VBox alignment="CENTER" prefHeight="643.0" prefWidth="331.0" spacing="10.0" style="-fx-padding: 20;">
+                <Label fx:id="welcomeLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #D35400;" text="Welcome Text" />
 
-            <HBox spacing="10">
-               <Label text="Recipe Name:" />
-               <TextField fx:id="recipeNameField" promptText="Enter Recipe Name" styleClass="input-field" />
-            </HBox>
+                <Label fx:id="welcomeLabel1" style="-fx-font-size: 16px; -fx-text-fill: #4E342E;" text="Add your unique Recipe &amp; Share it with everyone" />
 
-            <HBox spacing="10">
-               <Label text="Ingredients:" />
-               <TextArea fx:id="ingredientsField" prefHeight="55.0" prefRowCount="2" prefWidth="317.0" promptText="Enter Ingredients" styleClass="textarea-field" />
-            </HBox>
+                <!-- Recipe Name -->
+                <HBox spacing="10">
+                    <Label style="-fx-text-fill: #4E342E;" text="Recipe Name:" />
+                    <TextField fx:id="recipeNameField" prefHeight="28.0" prefWidth="205.0" promptText="Enter Recipe Name" style="-fx-background-color: #fff3e0; -fx-border-color: #D35400;" />
+                </HBox>
 
-            <Label text="Description:" />
-            <TextArea fx:id="descriptionField" prefHeight="114.0" prefRowCount="3" prefWidth="482.0" promptText="Short Description" styleClass="textarea-field" />
+                <!-- Ingredients -->
+                <HBox spacing="10">
+                    <Label style="-fx-text-fill: #4E342E;" text="Ingredients:" />
+                    <TextArea fx:id="ingredientsField" prefHeight="43.0" prefRowCount="2" prefWidth="217.0" promptText="Enter Ingredients" style="-fx-background-color: #fff3e0; -fx-border-color: #D35400; -fx-text-fill: #4E342E;" />
+                </HBox>
 
-            <HBox spacing="10">
-               <Label text="Category:" />
-               <HBox spacing="10">
-                  <RadioButton fx:id="breakfastRadio" text="Breakfast">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="categoryGroup" />
-                     </toggleGroup></RadioButton>
-                  <RadioButton fx:id="lunchRadio" text="Lunch" toggleGroup="$categoryGroup" />
-                  <RadioButton fx:id="dinnerRadio" text="Dinner" toggleGroup="$categoryGroup" />
-               </HBox>
-            </HBox>
+                <!-- Description -->
+                <Label style="-fx-text-fill: #4E342E;" text="Description:" />
+                <TextArea fx:id="descriptionField" prefHeight="57.0" prefRowCount="3" prefWidth="291.0" promptText="Short Description" style="-fx-background-color: #fff3e0; -fx-border-color: #D35400; -fx-text-fill: #4E342E;" />
 
-            <HBox spacing="10">
-               <Label text="Budget (Taka):" />
-               <HBox spacing="10">
-                  <RadioButton fx:id="budget100" text="100–250">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="budgetGroup" />
-                     </toggleGroup></RadioButton>
-                  <RadioButton fx:id="budget250" text="250–500" toggleGroup="$budgetGroup" />
-                  <RadioButton fx:id="budget500" text="500+" toggleGroup="$budgetGroup" />
-               </HBox>
-            </HBox>
+                <!-- Category -->
+                <HBox spacing="10">
+                    <Label style="-fx-text-fill: #4E342E;" text="Category:" />
+                    <HBox spacing="10">
+                        <RadioButton fx:id="breakfastRadio" text="Breakfast">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="categoryGroup" />
+                            </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="lunchRadio" text="Lunch" toggleGroup="$categoryGroup" />
+                        <RadioButton fx:id="dinnerRadio" text="Dinner" toggleGroup="$categoryGroup" />
+                    </HBox>
+                </HBox>
 
-            <HBox spacing="10">
-               <Label text="Cooking Time (min):" />
-               <TextField fx:id="cookingTimeField" promptText="e.g. 30" styleClass="input-field" />
-            </HBox>
+                <!-- Budget -->
+                <HBox spacing="10">
+                    <Label style="-fx-text-fill: #4E342E;" text="Budget (Taka):" />
+                    <HBox spacing="10">
+                        <RadioButton fx:id="budget100" text="100–250">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="budgetGroup" />
+                            </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="budget250" text="250–500" toggleGroup="$budgetGroup" />
+                        <RadioButton fx:id="budget500" text="500+" toggleGroup="$budgetGroup" />
+                    </HBox>
+                </HBox>
 
-            <HBox spacing="10">
-               <Label text="Difficulty Level:" />
-               <HBox spacing="10">
-                  <RadioButton fx:id="easyRadio" text="Easy">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="difficultyGroup" />
-                     </toggleGroup></RadioButton>
-                  <RadioButton fx:id="mediumRadio" text="Medium" toggleGroup="$difficultyGroup" />
-                  <RadioButton fx:id="hardRadio" text="Hard" toggleGroup="$difficultyGroup" />
-               </HBox>
-            </HBox>
-            
-            <HBox spacing="10">
-                <Button text="Choose Image" onAction="#handleChooseImage" />
-                <Label fx:id="imagePathLabel" text="No image selected" />
-            </HBox>
+                <!-- Cooking Time -->
+                <HBox spacing="10">
+                    <Label style="-fx-text-fill: #4E342E;" text="Cooking Time (min):" />
+                    <TextField fx:id="cookingTimeField" promptText="e.g. 30" style="-fx-background-color: #fff3e0; -fx-border-color: #D35400;" />
+                </HBox>
 
-            <ImageView fx:id="recipeImageView" fitHeight="100" fitWidth="100" preserveRatio="true" />
+                <!-- Difficulty -->
+                <HBox spacing="10">
+                    <Label style="-fx-text-fill: #4E342E;" text="Difficulty Level:" />
+                    <HBox spacing="10">
+                        <RadioButton fx:id="easyRadio" text="Easy">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="difficultyGroup" />
+                            </toggleGroup>
+                        </RadioButton>
+                        <RadioButton fx:id="mediumRadio" text="Medium" toggleGroup="$difficultyGroup" />
+                        <RadioButton fx:id="hardRadio" text="Hard" toggleGroup="$difficultyGroup" />
+                    </HBox>
+                </HBox>
 
+                <!-- Image Picker -->
+                <HBox spacing="10">
+                    <Button onAction="#handleChooseImage" style="-fx-background-color: #A04000; -fx-text-fill: white;" text="Choose Image" />
+                    <Label fx:id="imagePathLabel" prefHeight="28.0" prefWidth="99.0" style="-fx-text-fill: #4E342E;" text="No image selected" textAlignment="CENTER">
+                  <opaqueInsets>
+                     <Insets />
+                  </opaqueInsets></Label>
+                </HBox>
 
-            <HBox alignment="CENTER" spacing="10">
-               <Button onAction="#handleSaveRecipe" styleClass="primary-button" text="Save" />
-               <Button onAction="#handleViewRecipes" styleClass="info-button" text="View All Recipes" />
-               <!--<Button onAction="#handleEditRecipe" styleClass="secondary-button" text="Edit" />-->
-               <!--<Button onAction="#handleDeleteRecipe" styleClass="danger-button" text="Delete" />-->
-            </HBox>
+                <!-- Image Preview -->
+                <ImageView fx:id="recipeImageView" fitHeight="100" fitWidth="100" preserveRatio="true" />
 
-            <Button onAction="#handleLogout" styleClass="secondary-button" text="Logout" />
+                <!-- Action Buttons -->
+                <HBox alignment="CENTER" spacing="10">
+                    <Button onAction="#handleSaveRecipe" style="-fx-background-color: #F39C12; -fx-text-fill: white; -fx-font-weight: bold;" text="Save" />
+                    <Button onAction="#handleViewRecipes" style="-fx-background-color: #D35400; -fx-text-fill: white; -fx-font-weight: bold;" text="View All Recipes" />
+                </HBox>
 
-            <Label fx:id="statusLabel" styleClass="status-label" />
-         </VBox>
+                <Button onAction="#handleLogout" style="-fx-background-color: #A04000; -fx-text-fill: white;" text="Logout" />
 
-         
-        
-            <ScrollPane fitToWidth="true">
-                <FlowPane fx:id="cardContainer" prefHeight="582.0" prefWidth="775.0" />
+                <!-- Status Label -->
+                <Label fx:id="statusLabel" style="-fx-text-fill: #4E342E; -fx-font-style: italic;" />
+            </VBox>
+
+            <!-- RIGHT SCROLLPANE FOR CARDS -->
+            <ScrollPane fitToWidth="true" prefHeight="643.0" prefWidth="579.0" style="-fx-background-color: transparent;">
+                <FlowPane fx:id="cardContainer" prefHeight="631.0" prefWidth="353.0" style="-fx-padding: 10;" />
             </ScrollPane>
-
-      </children>
-   </HBox>
+        </children>
+    </HBox>
 </AnchorPane>
