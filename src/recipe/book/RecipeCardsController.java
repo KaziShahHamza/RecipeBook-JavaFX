@@ -165,13 +165,29 @@ private VBox createRecipeCard(String name, String description, String category, 
     @FXML
     private void handleBack(ActionEvent event) {
         try {
-            String fxmlToLoad = Session.isLoggedIn() ? "dashboard2.fxml" : "login.fxml";
-            Parent root = FXMLLoader.load(getClass().getResource(fxmlToLoad));
-            Stage stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.setTitle(Session.isLoggedIn() ? "Dashboard" : "Login");
-            stage.show();
-        } catch (Exception e) {
+            if (Session.isLoggedIn()) {
+                // Load dashboard2.fxml and set user
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard2.fxml"));
+                Parent root = loader.load();
+
+                Dashboard2Controller controller = loader.getController();
+                controller.setUser(Session.loggedInUserId, Session.loggedInUsername);
+
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Dashboard");
+                stage.show();
+
+            } else {
+                // Load login page if not logged in
+                Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Login");
+                stage.show();
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

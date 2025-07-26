@@ -49,15 +49,22 @@ public class RecipeDetailsController {
             String fxmlToLoad = previousPage.equals("dashboard2") ? "dashboard2.fxml" : "recipescards.fxml";
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlToLoad));
             Parent root = loader.load();
-            
+
+            // If going back to dashboard2, set the logged-in user
+            if (previousPage.equals("dashboard2")) {
+                Dashboard2Controller controller = loader.getController();
+                controller.setUser(Session.loggedInUserId, Session.loggedInUsername);
+            }
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-            stage.setTitle("Back");
+            stage.setTitle(previousPage.equals("dashboard2") ? "Dashboard" : "All Recipes");
             stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 
 }
