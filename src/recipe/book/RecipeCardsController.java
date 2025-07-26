@@ -57,7 +57,7 @@ public class RecipeCardsController {
     private void loadRecipeCards() {
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password");
              Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT name, ingredients, description, category, budget, cooking_time, difficulty FROM recipes")) {
+             ResultSet rs = stmt.executeQuery("SELECT name, ingredients, description, category, budget, cooking_time, difficulty, image_file FROM recipes")) {
 
             while (rs.next()) {
                 String name = rs.getString("name");
@@ -67,19 +67,19 @@ public class RecipeCardsController {
                 String budget = rs.getString("budget");
                 int time = rs.getInt("cooking_time");
                 String difficulty = rs.getString("difficulty");
+                String imageFile = rs.getString("image_file");
 
-                VBox card = createRecipeCard(name, description, category, budget, time, difficulty, ingredients);
+                VBox card = createRecipeCard(name, description, category, budget, time, difficulty, ingredients, imageFile);
 
                 cardContainer.getChildren().add(card);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    private VBox createRecipeCard(String name, String description, String category, String budget, int time, String difficulty, String ingredients) {
+    private VBox createRecipeCard(String name, String description, String category, String budget, int time, String difficulty, String ingredients, String imageFile) {
         VBox card = new VBox(6);
         card.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
         card.setPrefSize(200, 180);
@@ -106,12 +106,12 @@ public class RecipeCardsController {
 
                 // Get controller and set the selected recipe
                 RecipeDetailsController controller = loader.getController();
-                controller.setRecipe(new Recipe(0, name, ingredients, description, category, budget, time, difficulty), "recipescards");
+                controller.setRecipe(new Recipe(0, name, ingredients, description, category, budget, time, difficulty, imageFile), "recipescards");
 
                 // Replace current scene with detail scene
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(new Scene(detailRoot));
-                stage.setTitle("Recipe Details 1 - " + name);
+                stage.setTitle("Recipe Details - " + name);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -172,7 +172,7 @@ public class RecipeCardsController {
         cardContainer.getChildren().clear();
 
         try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password");
-             PreparedStatement stmt = conn.prepareStatement("SELECT name, ingredients, description, category, budget, cooking_time, difficulty FROM recipes WHERE LOWER(name) LIKE ?")) {
+             PreparedStatement stmt = conn.prepareStatement("SELECT name, ingredients, description, category, budget, cooking_time, difficulty, image_file FROM recipes WHERE LOWER(name) LIKE ?")) {
 
             stmt.setString(1, "%" + searchTerm + "%");
             ResultSet rs = stmt.executeQuery();
@@ -185,8 +185,9 @@ public class RecipeCardsController {
                 String budget = rs.getString("budget");
                 int time = rs.getInt("cooking_time");
                 String difficulty = rs.getString("difficulty");
+                String imageFile = rs.getString("image_file");
 
-                VBox card = createRecipeCard(name, description, category, budget, time, difficulty, ingredients);
+                VBox card = createRecipeCard(name, description, category, budget, time, difficulty, ingredients, imageFile);
 
                 cardContainer.getChildren().add(card);
             }
@@ -222,7 +223,7 @@ public class RecipeCardsController {
         String maxTimeStr = maxTimeField.getText().trim();
 
         // Build query
-        StringBuilder query = new StringBuilder("SELECT name, ingredients, description, category, budget, cooking_time, difficulty FROM recipes WHERE 1=1");
+        StringBuilder query = new StringBuilder("SELECT name, ingredients, description, category, budget, cooking_time, difficulty, image_file FROM recipes WHERE 1=1");
 
         if (!searchTerm.isEmpty()) {
             query.append(" AND LOWER(name) LIKE ?");
@@ -270,8 +271,10 @@ public class RecipeCardsController {
                 String budget = rs.getString("budget");
                 int time = rs.getInt("cooking_time");
                 String difficulty = rs.getString("difficulty");
+                String imageFile = rs.getString("image_file");
 
-                VBox card = createRecipeCard(name, description, category, budget, time, difficulty, ingredients);
+
+                VBox card = createRecipeCard(name, description, category, budget, time, difficulty, ingredients, imageFile);
 
                 cardContainer.getChildren().add(card);
             }

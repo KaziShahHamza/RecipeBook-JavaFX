@@ -4,17 +4,24 @@
  */
 package recipe.book;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import java.sql.*;
+import java.util.UUID;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.*;
 
 /**
@@ -36,6 +43,11 @@ public class Dashboard2Controller  {
     @FXML private RadioButton budget100, budget250, budget500;
     @FXML private RadioButton easyRadio, mediumRadio, hardRadio;
     @FXML private TextField cookingTimeField;
+    
+    @FXML private Label imagePathLabel;
+    @FXML private ImageView recipeImageView;
+
+    private String savedImageFileName = null;
     
     @FXML private Recipe selectedRecipe = null;
 
@@ -123,7 +135,7 @@ public class Dashboard2Controller  {
             try (Connection conn = getConnection()) {
                 if (selectedRecipe == null) {
                     // INSERT new
-                    String sql = "INSERT INTO recipes (user_id, name, ingredients, description, category, budget, cooking_time, difficulty) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    String sql = "INSERT INTO recipes (user_id, name, ingredients, description, category, budget, cooking_time, difficulty, image_file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     PreparedStatement stmt = conn.prepareStatement(sql);
                     stmt.setInt(1, userId);
                     stmt.setString(2, name);
@@ -133,6 +145,7 @@ public class Dashboard2Controller  {
                     stmt.setString(6, budget);
                     stmt.setInt(7, cookingTime);
                     stmt.setString(8, difficulty);
+                    stmt.setString(9, savedImageFileName); 
                     stmt.executeUpdate();
                     statusLabel.setText("Recipe saved successfully.");
                     statusLabel.setStyle("-fx-text-fill: green;");
@@ -233,125 +246,126 @@ public class Dashboard2Controller  {
     }
     
 
-@FXML
-private void loadRecipeCards() {
-    cardContainer.getChildren().clear(); // clear old cards
+    @FXML
+    private void loadRecipeCards() {
+        cardContainer.getChildren().clear(); // clear old cards
 
-    try (Connection conn = getConnection();
-         PreparedStatement stmt = conn.prepareStatement("SELECT * FROM recipes WHERE user_id = ?")) {
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement("SELECT * FROM recipes WHERE user_id = ?")) {
 
-        stmt.setInt(1, userId);
-        ResultSet rs = stmt.executeQuery();
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
 
-        while (rs.next()) {
-            Recipe recipe = new Recipe(
-                rs.getInt("id"),
-                rs.getString("name"),
-                rs.getString("ingredients"),
-                rs.getString("description"),
-                rs.getString("category"),
-                rs.getString("budget"),
-                rs.getInt("cooking_time"),
-                rs.getString("difficulty")
-            );
+            while (rs.next()) {
+                Recipe recipe = new Recipe(
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("ingredients"),
+                    rs.getString("description"),
+                    rs.getString("category"),
+                    rs.getString("budget"),
+                    rs.getInt("cooking_time"),
+                    rs.getString("difficulty"),
+                    rs.getString("image_file")
+                );
 
-            VBox card = createRecipeCard(recipe);
-            cardContainer.getChildren().add(card);
-        }
-
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
-
-    
-    
-private VBox createRecipeCard(Recipe recipe) {
-    VBox card = new VBox(6);
-    card.setPadding(new Insets(10));
-    card.setPrefSize(200, 200);
-    card.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 8; -fx-background-radius: 8;");
-
-    Label nameLabel = new Label(recipe.getName());
-    nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-    Label descLabel = new Label(shorten(recipe.getDescription(), 80));
-    descLabel.setWrapText(true);
-    Label ingredientsLabel = new Label("Ingredients: " + recipe.getIngredients());
-    Label categoryLabel = new Label("Category: " + recipe.getCategory());
-    Label budgetLabel = new Label("Budget: " + recipe.getBudget());
-    Label timeLabel = new Label("Time: " + recipe.getCookingTime() + " min");
-    Label difficultyLabel = new Label("Difficulty: " + recipe.getDifficulty());
-
-    Button editBtn = new Button("Edit");
-    editBtn.setStyle("-fx-background-color: #f0ad4e; -fx-text-fill: white;");
-    editBtn.setOnAction(e -> loadRecipeIntoForm(recipe));
-
-    Button deleteBtn = new Button("Delete");
-    deleteBtn.setStyle("-fx-background-color: #d9534f; -fx-text-fill: white;");
-    deleteBtn.setOnAction(e -> deleteRecipe(recipe));
-
-    HBox buttonBox = new HBox(10, editBtn, deleteBtn);
-
-    card.getChildren().addAll(nameLabel, descLabel, categoryLabel, budgetLabel, timeLabel, difficultyLabel, ingredientsLabel, buttonBox);
-    
-    card.setOnMouseClicked(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("RecipeDetails.fxml"));
-                Parent detailRoot = loader.load();
-
-                // Get controller and set the selected recipe
-                RecipeDetailsController controller = loader.getController();
-                controller.setRecipe(new Recipe(0, recipe.getName(), recipe.getIngredients(), 
-                        recipe.getDescription(), recipe.getCategory(), 
-                        recipe.getBudget(), recipe.getCookingTime(), recipe.getDifficulty()), "dashboard2");
-
-                // Replace current scene with detail scene
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(new Scene(detailRoot));
-                stage.setTitle("Recipe Details 2 - " + recipe.getName());
-            } catch (Exception e) {
-                e.printStackTrace();
+                VBox card = createRecipeCard(recipe);
+                cardContainer.getChildren().add(card);
             }
-        });
-    
-    return card;
-}
 
-
-private void loadRecipeIntoForm(Recipe recipe) {
-    selectedRecipe = recipe;
-
-    recipeNameField.setText(recipe.getName());
-    ingredientsField.setText(recipe.getIngredients());
-    descriptionField.setText(recipe.getDescription());
-    cookingTimeField.setText(String.valueOf(recipe.getCookingTime()));
-
-    setRadioSelection(recipe.getCategory(), breakfastRadio, lunchRadio, dinnerRadio);
-    setRadioSelection(recipe.getBudget(), budget100, budget250, budget500);
-    setRadioSelection(recipe.getDifficulty(), easyRadio, mediumRadio, hardRadio);
-
-    statusLabel.setText("Editing recipe: " + recipe.getName());
-    statusLabel.setStyle("-fx-text-fill: orange;");
-}
-
-
-private void deleteRecipe(Recipe recipe) {
-    try (Connection conn = getConnection()) {
-        String sql = "DELETE FROM recipes WHERE id = ?";
-        PreparedStatement stmt = conn.prepareStatement(sql);
-        stmt.setInt(1, recipe.getId());
-        stmt.executeUpdate();
-
-        statusLabel.setText("Recipe deleted: " + recipe.getName());
-        statusLabel.setStyle("-fx-text-fill: green;");
-
-        loadRecipeCards();
-    } catch (SQLException e) {
-        e.printStackTrace();
-        statusLabel.setText("Error deleting recipe.");
-        statusLabel.setStyle("-fx-text-fill: red;");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-}
+
+    
+    
+    private VBox createRecipeCard(Recipe recipe) {
+        VBox card = new VBox(6);
+        card.setPadding(new Insets(10));
+        card.setPrefSize(200, 200);
+        card.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 8; -fx-background-radius: 8;");
+
+        Label nameLabel = new Label(recipe.getName());
+        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        Label descLabel = new Label(shorten(recipe.getDescription(), 80));
+        descLabel.setWrapText(true);
+        Label ingredientsLabel = new Label("Ingredients: " + recipe.getIngredients());
+        Label categoryLabel = new Label("Category: " + recipe.getCategory());
+        Label budgetLabel = new Label("Budget: " + recipe.getBudget());
+        Label timeLabel = new Label("Time: " + recipe.getCookingTime() + " min");
+        Label difficultyLabel = new Label("Difficulty: " + recipe.getDifficulty());
+
+        Button editBtn = new Button("Edit");
+        editBtn.setStyle("-fx-background-color: #f0ad4e; -fx-text-fill: white;");
+        editBtn.setOnAction(e -> loadRecipeIntoForm(recipe));
+
+        Button deleteBtn = new Button("Delete");
+        deleteBtn.setStyle("-fx-background-color: #d9534f; -fx-text-fill: white;");
+        deleteBtn.setOnAction(e -> deleteRecipe(recipe));
+
+        HBox buttonBox = new HBox(10, editBtn, deleteBtn);
+
+        card.getChildren().addAll(nameLabel, descLabel, categoryLabel, budgetLabel, timeLabel, difficultyLabel, ingredientsLabel, buttonBox);
+
+        card.setOnMouseClicked(event -> {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("RecipeDetails.fxml"));
+                    Parent detailRoot = loader.load();
+
+                    // Get controller and set the selected recipe
+                    RecipeDetailsController controller = loader.getController();
+                    controller.setRecipe(new Recipe(0, recipe.getName(), recipe.getIngredients(), 
+                            recipe.getDescription(), recipe.getCategory(), 
+                            recipe.getBudget(), recipe.getCookingTime(), recipe.getDifficulty(), recipe.getImageFile()), "dashboard2");
+
+                    // Replace current scene with detail scene
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.setScene(new Scene(detailRoot));
+                    stage.setTitle("Recipe Details - " + recipe.getName());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+        return card;
+    }
+
+
+    private void loadRecipeIntoForm(Recipe recipe) {
+        selectedRecipe = recipe;
+
+        recipeNameField.setText(recipe.getName());
+        ingredientsField.setText(recipe.getIngredients());
+        descriptionField.setText(recipe.getDescription());
+        cookingTimeField.setText(String.valueOf(recipe.getCookingTime()));
+
+        setRadioSelection(recipe.getCategory(), breakfastRadio, lunchRadio, dinnerRadio);
+        setRadioSelection(recipe.getBudget(), budget100, budget250, budget500);
+        setRadioSelection(recipe.getDifficulty(), easyRadio, mediumRadio, hardRadio);
+
+        statusLabel.setText("Editing recipe: " + recipe.getName());
+        statusLabel.setStyle("-fx-text-fill: orange;");
+    }
+
+
+    private void deleteRecipe(Recipe recipe) {
+        try (Connection conn = getConnection()) {
+            String sql = "DELETE FROM recipes WHERE id = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, recipe.getId());
+            stmt.executeUpdate();
+
+            statusLabel.setText("Recipe deleted: " + recipe.getName());
+            statusLabel.setStyle("-fx-text-fill: green;");
+
+            loadRecipeCards();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            statusLabel.setText("Error deleting recipe.");
+            statusLabel.setStyle("-fx-text-fill: red;");
+        }
+    }
 
     
     
@@ -360,8 +374,36 @@ private void deleteRecipe(Recipe recipe) {
         return text.length() <= maxLength ? text : text.substring(0, maxLength) + "...";
     } 
     
-    
-    
+    @FXML
+    private void handleChooseImage(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Recipe Image");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg")
+        );
+        File selectedFile = fileChooser.showOpenDialog(null);
+
+        if (selectedFile != null) {
+            try {
+                // Generate unique filename
+                String fileName = UUID.randomUUID().toString() + "_" + selectedFile.getName();
+                File destDir = new File("src/main/resources/images");
+                if (!destDir.exists()) destDir.mkdirs();
+
+                File destFile = new File(destDir, fileName);
+                Files.copy(selectedFile.toPath(), destFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+
+                imagePathLabel.setText("Selected: " + fileName);
+                recipeImageView.setImage(new Image(destFile.toURI().toString()));
+                savedImageFileName = fileName; // Save to DB later
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                imagePathLabel.setText("Image upload failed.");
+            }
+        }
+    }
+
     
     
 }

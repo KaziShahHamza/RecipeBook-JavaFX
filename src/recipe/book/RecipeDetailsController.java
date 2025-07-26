@@ -1,5 +1,6 @@
 package recipe.book;
 
+import java.io.File;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class RecipeDetailsController {
@@ -17,6 +20,8 @@ public class RecipeDetailsController {
 
     private Recipe recipe;
     private String previousPage;
+    
+    @FXML private ImageView recipeImageView;
 
     public void setRecipe(Recipe recipe, String previousPage) {
         this.recipe = recipe;
@@ -29,6 +34,13 @@ public class RecipeDetailsController {
         difficultyLabel.setText("Difficulty: " + recipe.getDifficulty());
         ingredientsLabel.setText(recipe.getIngredients());
         descriptionLabel.setText(recipe.getDescription());
+        
+        if (recipe.getImageFile() != null) {
+            File imageFile = new File("src/main/resources/images/" + recipe.getImageFile());
+            if (imageFile.exists()) {
+                recipeImageView.setImage(new Image(imageFile.toURI().toString()));
+            }
+        }
     }
 
     @FXML
@@ -37,6 +49,7 @@ public class RecipeDetailsController {
             String fxmlToLoad = previousPage.equals("dashboard2") ? "dashboard2.fxml" : "recipescards.fxml";
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlToLoad));
             Parent root = loader.load();
+            
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));

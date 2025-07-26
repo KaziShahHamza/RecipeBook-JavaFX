@@ -290,7 +290,8 @@ public class DashboardController {
                 rs.getString("category"),
                 rs.getString("budget"),
                 rs.getInt("cooking_time"),
-                rs.getString("difficulty")
+                rs.getString("difficulty"),
+                rs.getString("image_file")
             ));
         }
 

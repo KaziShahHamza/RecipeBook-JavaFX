@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.image.ImageView?>
 
-<AnchorPane prefHeight="552.0" prefWidth="619.0" style="-fx-background-color: #f4f4f4;" 
-            xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="recipe.book.Dashboard2Controller">
+<AnchorPane prefHeight="601.0" prefWidth="941.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.Dashboard2Controller">
 
-    <HBox layoutX="10.0" layoutY="7.0" prefHeight="475.0" prefWidth="780.0" spacing="10.0">
+    <HBox layoutX="10.0" layoutY="7.0" prefHeight="588.0" prefWidth="926.0" spacing="10.0">
       <children>
          <VBox alignment="CENTER" prefHeight="475.0" prefWidth="652.0" spacing="10.0" styleClass="form-container">
             <Label fx:id="welcomeLabel" styleClass="heading-label" text="Welcome Text" />
@@ -28,11 +28,11 @@
 
             <HBox spacing="10">
                <Label text="Ingredients:" />
-               <TextArea fx:id="ingredientsField" prefRowCount="2" promptText="Enter Ingredients" styleClass="textarea-field" />
+               <TextArea fx:id="ingredientsField" prefHeight="55.0" prefRowCount="2" prefWidth="317.0" promptText="Enter Ingredients" styleClass="textarea-field" />
             </HBox>
 
             <Label text="Description:" />
-            <TextArea fx:id="descriptionField" prefRowCount="3" promptText="Short Description" styleClass="textarea-field" />
+            <TextArea fx:id="descriptionField" prefHeight="114.0" prefRowCount="3" prefWidth="482.0" promptText="Short Description" styleClass="textarea-field" />
 
             <HBox spacing="10">
                <Label text="Category:" />
@@ -74,15 +74,23 @@
                   <RadioButton fx:id="hardRadio" text="Hard" toggleGroup="$difficultyGroup" />
                </HBox>
             </HBox>
+            
+            <HBox spacing="10">
+                <Button text="Choose Image" onAction="#handleChooseImage" />
+                <Label fx:id="imagePathLabel" text="No image selected" />
+            </HBox>
+
+            <ImageView fx:id="recipeImageView" fitHeight="100" fitWidth="100" preserveRatio="true" />
+
 
             <HBox alignment="CENTER" spacing="10">
                <Button onAction="#handleSaveRecipe" styleClass="primary-button" text="Save" />
+               <Button onAction="#handleViewRecipes" styleClass="info-button" text="View All Recipes" />
                <!--<Button onAction="#handleEditRecipe" styleClass="secondary-button" text="Edit" />-->
                <!--<Button onAction="#handleDeleteRecipe" styleClass="danger-button" text="Delete" />-->
             </HBox>
 
             <Button onAction="#handleLogout" styleClass="secondary-button" text="Logout" />
-            <Button onAction="#handleViewRecipes" styleClass="info-button" text="View All Recipes" />
 
             <Label fx:id="statusLabel" styleClass="status-label" />
          </VBox>
@@ -90,7 +98,7 @@
          
         
             <ScrollPane fitToWidth="true">
-                <FlowPane fx:id="cardContainer" prefHeight="477.0" prefWidth="809.0" />
+                <FlowPane fx:id="cardContainer" prefHeight="582.0" prefWidth="775.0" />
             </ScrollPane>
 
       </children>

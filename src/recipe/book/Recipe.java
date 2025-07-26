@@ -17,9 +17,10 @@ public class Recipe {
     private String budget;
     private int cookingTime;
     private String difficulty;
+    private String imageFile;
 
     public Recipe(int id, String name, String ingredients, String description,
-                  String category, String budget, int cookingTime, String difficulty) {
+                  String category, String budget, int cookingTime, String difficulty, String imageFile) {
         this.id = id;
         this.name = name;
         this.ingredients = ingredients;
@@ -28,6 +29,7 @@ public class Recipe {
         this.budget = budget;
         this.cookingTime = cookingTime;
         this.difficulty = difficulty;
+        this.imageFile = imageFile;
     }
 
     public int getId() { return id; }
@@ -38,4 +40,6 @@ public class Recipe {
     public String getBudget() { return budget; }
     public int getCookingTime() { return cookingTime; }
     public String getDifficulty() { return difficulty; }
+    public String getImageFile() { return imageFile; }
+    public void setImageFile(String imageFile) { this.imageFile = imageFile; }
 }
