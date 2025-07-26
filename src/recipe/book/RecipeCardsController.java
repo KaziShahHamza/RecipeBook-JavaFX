@@ -79,26 +79,37 @@ public class RecipeCardsController {
     }
 
 
-    private VBox createRecipeCard(String name, String description, String category, String budget, int time, String difficulty, String ingredients, String imageFile) {
-        VBox card = new VBox(6);
-        card.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
-        card.setPrefSize(200, 180);
-        card.setStyle("-fx-background-color: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 8; -fx-background-radius: 8;");
+private VBox createRecipeCard(String name, String description, String category, String budget, int time, String difficulty, String ingredients, String imageFile) {
+    VBox card = new VBox(6);
+    card.setPadding(new Insets(10));
+    card.setPrefSize(200, 200);
+    card.setStyle("""
+        -fx-background-color: #ffffff;
+        -fx-border-color: #D35400;
+        -fx-border-radius: 10;
+        -fx-background-radius: 10;
+        -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 2, 2);
+    """);
 
-        Label nameLabel = new Label(name);
-        nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        Label ingredientsLabel = new Label(ingredients);
+    Label nameLabel = new Label(name);
+    nameLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #A04000;");
 
-        Label descLabel = new Label(shorten(description, 80));
-        descLabel.setWrapText(true);
+    Label descLabel = new Label(shorten(description, 80));
+    descLabel.setWrapText(true);
+    descLabel.setStyle("-fx-text-fill: #4E342E;");
 
-        Label categoryLabel = new Label("Category: " + (category != null ? category : "N/A"));
-        Label budgetLabel = new Label("Budget: " + (budget != null ? budget : "N/A"));
-        Label timeLabel = new Label("Time: " + time + " min");
-        Label difficultyLabel = new Label("Difficulty: " + (difficulty != null ? difficulty : "N/A"));
+    Label categoryLabel = new Label("Category: " + (category != null ? category : "N/A"));
+    Label budgetLabel = new Label("Budget: " + (budget != null ? budget : "N/A"));
+    Label timeLabel = new Label("Time: " + time + " min");
+    Label difficultyLabel = new Label("Difficulty: " + (difficulty != null ? difficulty : "N/A"));
+    Label ingredientsLabel = new Label(ingredients);
 
-        card.getChildren().addAll(nameLabel, descLabel, categoryLabel, budgetLabel, timeLabel, difficultyLabel, ingredientsLabel);
+    for (Label lbl : List.of(categoryLabel, budgetLabel, timeLabel, difficultyLabel, ingredientsLabel)) {
+        lbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #4E342E;");
+    }
 
+    card.getChildren().addAll(nameLabel, descLabel, categoryLabel, budgetLabel, timeLabel, difficultyLabel, ingredientsLabel);
+    
         card.setOnMouseClicked(event -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("RecipeDetails.fxml"));
@@ -116,8 +127,9 @@ public class RecipeCardsController {
                 e.printStackTrace();
             }
         });
-        return card;
-    }
+    
+    return card;
+}
 
     @FXML
     private void handleLogin(ActionEvent event) {

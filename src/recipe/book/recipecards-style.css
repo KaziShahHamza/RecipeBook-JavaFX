@@ -1,0 +1,56 @@
+.root {
+    -fx-background-color: #FDEBD0;
+    -fx-padding: 10;
+}
+
+.main-container {
+    -fx-padding: 15;
+    -fx-spacing: 12;
+}
+
+.title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #D35400;
+}
+
+.section-label {
+    -fx-font-weight: bold;
+    -fx-text-fill: #A04000;
+}
+
+.filter-box {
+    -fx-background-color: #fff5e6;
+    -fx-border-color: #D35400;
+    -fx-border-radius: 8;
+    -fx-padding: 10;
+    -fx-background-radius: 8;
+}
+
+.primary-button {
+    -fx-background-color: #F39C12;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+}
+
+.secondary-button {
+    -fx-background-color: #A04000;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+}
+
+.search-field {
+    -fx-background-radius: 6;
+    -fx-border-color: #D35400;
+    -fx-border-radius: 6;
+    -fx-padding: 5;
+}
+
+.card-scroll {
+    -fx-background: #fff8ee;
+    -fx-padding: 10;
+    -fx-border-color: #E59866;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}

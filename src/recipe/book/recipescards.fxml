@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
@@ -10,102 +9,73 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="552.0" prefWidth="619.0" style="-fx-background-color: #f4f4f4;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.RecipeCardsController">
+<AnchorPane prefHeight="596.0" prefWidth="673.0" styleClass="root" stylesheets="@recipecards-style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.RecipeCardsController">
 
-    <VBox alignment="TOP_CENTER" prefHeight="552.0" prefWidth="619.0" spacing="10.0">
-        
-        <HBox alignment="CENTER_RIGHT" spacing="150.0">
-           <Label style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Recipes Gallery" />
-                <HBox spacing="10" layoutX="14.0" layoutY="14.0">
-                    <Label fx:id="usernameLabel" text="" visible="false" />
-                    <Button fx:id="loginButton" onAction="#handleLogin" prefHeight="25.0" prefWidth="98.0" text="Login/Signup" />
-                    <Button fx:id="logoutButton" onAction="#handleLogout" text="Logout" visible="false" />
-                </HBox>
-           <opaqueInsets>
-            <Insets right="20.0" />
-         </opaqueInsets>
-         <padding>
-            <Insets right="10.0" top="5.0" />
-         </padding>
+    <VBox alignment="TOP_CENTER" layoutX="15.0" layoutY="12.0" spacing="10.0" styleClass="main-container">
+
+        <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="585.0" spacing="150.0" styleClass="header-bar">
+            <Label styleClass="title-label" text="Recipes Gallery" />
+            <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="216.0" spacing="10">
+                <Label fx:id="usernameLabel" prefHeight="29.0" prefWidth="68.0" text="" visible="false" />
+                <Button fx:id="logoutButton" onAction="#handleLogout" styleClass="secondary-button" text="Logout" visible="false" />
+                <Button fx:id="loginButton" onAction="#handleLogin" prefHeight="25.0" prefWidth="57.0" styleClass="primary-button" text="Login" />
+            </HBox>
         </HBox>
-        
-        <!-- 🔍 Search Bar -->
+
+        <!-- Search -->
         <HBox alignment="CENTER" spacing="10.0">
-            <TextField fx:id="searchField" prefWidth="300" promptText="Search by Recipe Name..." />
-            <Button onAction="#handleSearch" text="Search" />
+            <TextField fx:id="searchField" prefWidth="300" promptText="Search by Recipe Name..." styleClass="search-field" />
+            <Button onAction="#handleSearch" styleClass="primary-button" text="Search" />
         </HBox>
-      <HBox prefHeight="468.0" prefWidth="619.0">
-         <children>
-      
-              
-              <!-- Filter Section -->
-              <HBox alignment="CENTER" prefHeight="466.0" prefWidth="154.0" spacing="20">
-               <VBox prefHeight="466.0" prefWidth="129.0" spacing="15.0">
-                  <children>
-            
-                        <!-- Filter and Reset Buttons -->
-                        <VBox alignment="BOTTOM_CENTER" spacing="10">
-                        <HBox alignment="TOP_CENTER" prefHeight="0.0" prefWidth="100.0" spacing="10.0">
-                           <children>
-                                  <Button fx:id="filterButton" onAction="#handleFilter" text="Filter" />
-                                  <Button fx:id="resetButton" onAction="#handleReset" text="Reset" />
-                           </children>
-                        </HBox>
-                        </VBox>
-            
-                        <!-- Budget Filter -->
-                        <VBox spacing="5">
-                            <Label text="Budget:">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                            <CheckBox fx:id="budget100" text="100–250" />
-                            <CheckBox fx:id="budget250" text="250–500" />
-                            <CheckBox fx:id="budget500" text="500+" />
-                        </VBox>
-                        <!-- Category Filter -->
-                        <VBox spacing="5">
-                            <Label text="Category:">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                            <CheckBox fx:id="catBreakfast" text="Breakfast" />
-                            <CheckBox fx:id="catLunch" text="Lunch" />
-                            <CheckBox fx:id="catDinner" text="Dinner" />
-                        </VBox>
-            
-                        <!-- Difficulty Filter -->
-                        <VBox spacing="5">
-                            <Label text="Difficulty:" />
-                            <CheckBox fx:id="diffEasy" text="Easy" />
-                            <CheckBox fx:id="diffMedium" text="Medium" />
-                            <CheckBox fx:id="diffHard" text="Hard" />
-                        </VBox>
-            
-                        <!-- Cooking Time Filter -->
-                        <VBox spacing="5">
-                            <Label text="Cooking Time (min):" />
-                            <TextField fx:id="minTimeField" prefWidth="60" promptText="Min" />
-                            <TextField fx:id="maxTimeField" prefWidth="60" promptText="Max" />
-                        </VBox>
-                  </children>
-               </VBox>
-              </HBox>
-      
-              
-              <ScrollPane fitToWidth="true">
-                  <FlowPane fx:id="cardContainer" prefHeight="429.0" prefWidth="449.0" />
-              </ScrollPane>
-         </children>
-      </HBox>
 
-        <Button fx:id="backButton" onAction="#handleBack">
-            <VBox.margin><Insets bottom="10.0" /></VBox.margin>
-        </Button>
+        <HBox spacing="10.0">
+            <!-- Filters -->
+            <VBox spacing="15.0" styleClass="filter-box">
+                <!-- Filter Buttons -->
+                <HBox spacing="10.0">
+                    <Button fx:id="filterButton" onAction="#handleFilter" styleClass="primary-button" text="Filter" />
+                    <Button fx:id="resetButton" onAction="#handleReset" styleClass="secondary-button" text="Reset" />
+                </HBox>
 
+                <!-- Budget -->
+                <VBox spacing="5">
+                    <Label styleClass="section-label" text="Budget:" />
+                    <CheckBox fx:id="budget100" text="100–250" />
+                    <CheckBox fx:id="budget250" text="250–500" />
+                    <CheckBox fx:id="budget500" text="500+" />
+                </VBox>
+
+                <!-- Category -->
+                <VBox spacing="5">
+                    <Label styleClass="section-label" text="Category:" />
+                    <CheckBox fx:id="catBreakfast" text="Breakfast" />
+                    <CheckBox fx:id="catLunch" text="Lunch" />
+                    <CheckBox fx:id="catDinner" text="Dinner" />
+                </VBox>
+
+                <!-- Difficulty -->
+                <VBox spacing="5">
+                    <Label styleClass="section-label" text="Difficulty:" />
+                    <CheckBox fx:id="diffEasy" text="Easy" />
+                    <CheckBox fx:id="diffMedium" text="Medium" />
+                    <CheckBox fx:id="diffHard" text="Hard" />
+                </VBox>
+
+                <!-- Time -->
+                <VBox spacing="5">
+                    <Label styleClass="section-label" text="Cooking Time (min):" />
+                    <TextField fx:id="minTimeField" prefWidth="60" promptText="Min" />
+                    <TextField fx:id="maxTimeField" prefWidth="60" promptText="Max" />
+                </VBox>
+            </VBox>
+
+            <!-- Card Gallery -->
+            <ScrollPane fitToWidth="true" styleClass="card-scroll">
+                <FlowPane fx:id="cardContainer" hgap="10" prefHeight="453.0" prefWidth="500.0" vgap="10" />
+            </ScrollPane>
+        </HBox>
+
+        <Button fx:id="backButton" onAction="#handleBack" styleClass="secondary-button" text="Back" />
     </VBox>
 </AnchorPane>
