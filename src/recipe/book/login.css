@@ -1,58 +1,40 @@
-/* login.css */
-
-.root {
-    -fx-font-family: "Segoe UI", sans-serif;
-}
-
 .heading-label {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-text-fill: #2c3e50;
+    -fx-text-fill: #D35400;
+    -fx-padding: 10 0 10 0;
 }
 
 .input-field {
-    -fx-pref-width: 200px;
-    -fx-padding: 8;
-    -fx-background-radius: 6;
-    -fx-border-color: #ccc;
-    -fx-border-radius: 6;
-    -fx-background-color: #fff;
-}
-
-.input-field:focused {
-    -fx-border-color: #007bff;
+    -fx-background-color: #fff3e0;
+    -fx-border-color: #D35400;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+    -fx-text-fill: #4E342E;
+    -fx-font-size: 14px;
 }
 
 .primary-button {
-    -fx-background-color: #007bff;
+    -fx-background-color: #F39C12;
     -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-background-radius: 6;
-    -fx-pref-width: 200px;
-}
-
-.primary-button:hover {
-    -fx-background-color: #0056b3;
+    -fx-padding: 6 14;
+    -fx-background-radius: 5;
 }
 
 .secondary-button {
-    -fx-background-color: #6c757d;
+    -fx-background-color: #A04000;
     -fx-text-fill: white;
-    -fx-background-radius: 6;
-    -fx-pref-width: 200px;
-}
-
-.secondary-button:hover {
-    -fx-background-color: #5a6268;
+    -fx-font-weight: bold;
+    -fx-padding: 6 14;
+    -fx-background-radius: 5;
 }
 
 .info-button {
-    -fx-background-color: #17a2b8;
+    -fx-background-color: #D35400;
     -fx-text-fill: white;
-    -fx-background-radius: 6;
-    -fx-pref-width: 200px;
-}
-
-.info-button:hover {
-    -fx-background-color: #117a8b;
+    -fx-font-weight: bold;
+    -fx-padding: 6 14;
+    -fx-background-radius: 5;
 }

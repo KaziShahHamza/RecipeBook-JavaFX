@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="300" prefWidth="400"
-            xmlns="http://javafx.com/javafx/20.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="recipe.book.SignupController"
-            stylesheets="@signup.css">
+<AnchorPane prefHeight="365.0" prefWidth="400.0" style="-fx-background-color: linear-gradient(to bottom, #fdebd0, #f8e0c0); -fx-padding: 20;" stylesheets="@signup.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.SignupController">
+    
+    <VBox alignment="CENTER" layoutX="80.0" layoutY="34.0" prefWidth="240.0" spacing="12.0">
+        <Label styleClass="heading-label" text="Create Your Account" />
 
-    <VBox alignment="CENTER" layoutX="100.0" layoutY="30.0" spacing="10.0" prefWidth="200.0">
-        <Label text="Sign Up" styleClass="heading-label"/>
+        <TextField fx:id="usernameField" promptText="Username" styleClass="input-field" />
+        <TextField fx:id="emailField" promptText="Email" styleClass="input-field" />
+        <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field" />
 
-        <TextField fx:id="usernameField" promptText="Username" styleClass="input-field"/>
-        <TextField fx:id="emailField" promptText="Email" styleClass="input-field"/>
-        <PasswordField fx:id="passwordField" promptText="Password" styleClass="input-field"/>
-
-        <Button onAction="#handleSignup" text="Sign Up" styleClass="primary-button"/>
-        <Button onAction="#handleBackToLogin" text="Back to Login" styleClass="secondary-button"/>
+        <Button onAction="#handleSignup" styleClass="primary-button" text="Sign Up" />
+        <Button onAction="#handleBackToLogin" styleClass="secondary-button" text="Back to Login" />
 
         <Label fx:id="statusLabel" styleClass="status-label" />
     </VBox>
-
 </AnchorPane>
