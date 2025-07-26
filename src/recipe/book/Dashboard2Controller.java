@@ -314,10 +314,11 @@ public class Dashboard2Controller  {
 
         Button editBtn = new Button("Edit");
         editBtn.setStyle("-fx-background-color: #F39C12; -fx-text-fill: white; -fx-font-weight: bold;");
-
+        editBtn.setOnAction(e -> loadRecipeIntoForm(recipe));
+        
         Button deleteBtn = new Button("Delete");
         deleteBtn.setStyle("-fx-background-color: #A04000; -fx-text-fill: white; -fx-font-weight: bold;");
-
+        deleteBtn.setOnAction(e -> deleteRecipe(recipe)); 
 
         HBox buttonBox = new HBox(10, editBtn, deleteBtn);
 
