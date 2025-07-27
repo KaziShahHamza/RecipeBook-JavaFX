@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane 
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="recipe.book.SavedRecipes2Controller"
+            >
+
+        <Label layoutX="200" layoutY="10"
+               style="-fx-font-size: 20px; -fx-font-weight: bold;"
+               text="Your Saved Recipes" />
+
+        <ScrollPane fx:id="scrollPane">
+            <FlowPane fx:id="cardContainer" />
+        </ScrollPane>
+
+        <Label fx:id="statusLabel" layoutX="10" layoutY="360" prefWidth="580.0" />
+</AnchorPane>

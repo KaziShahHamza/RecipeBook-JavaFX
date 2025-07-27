@@ -347,6 +347,72 @@ public class Dashboard2Controller  {
         return card;
     }
 
+    @FXML
+    private void handleSavedRecipes1(ActionEvent event) {
+        try {
+            System.out.println("Attempting to load SavedRecipes11.fxml...");
+            URL fxmlUrl = getClass().getResource("SavedRecipes11.fxml");
+            System.out.println("FXML URL: " + fxmlUrl); // Should not be null
+
+            if (fxmlUrl == null) {
+                System.err.println("FXML file not found! Make sure SavedRecipes11.fxml is in the same package.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Parent root = loader.load();
+            System.out.println("FXML loaded successfully.");
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Saved Recipes");
+            System.out.println("Scene switched to SavedRecipes11.fxml");
+        } catch (IOException e) {
+            System.err.println("Failed to load SavedRecipes11.fxml");
+            e.printStackTrace();
+        }
+    }
+    
+        @FXML
+    private void handleSavedRecipes2(ActionEvent event) {
+        try {
+            System.out.println("Attempting to load SavedRecipes2.fxml...");
+            URL fxmlUrl = getClass().getResource("SavedRecipes2.fxml");
+            System.out.println("FXML URL: " + fxmlUrl); // Should not be null
+
+            if (fxmlUrl == null) {
+                System.err.println("FXML file not found! Make sure SavedRecipes2.fxml is in the same package.");
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Parent root = loader.load();
+            System.out.println("FXML loaded successfully.");
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Saved Recipes");
+            System.out.println("Scene switched to SavedRecipes2.fxml");
+        } catch (Exception e) {
+            System.err.println("Failed to load SavedRecipes2.fxml");
+            e.printStackTrace();
+        }
+    }
+
+        @FXML
+    private void handleHelloPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Hello.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Hello Page");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void loadRecipeIntoForm(Recipe recipe) {
         selectedRecipe = recipe;
