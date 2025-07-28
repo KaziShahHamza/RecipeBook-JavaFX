@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Button;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 
 
@@ -159,30 +160,59 @@ private VBox createRecipeCard(int id, String name, String description, String ca
         card.getChildren().add(saveBtn);
     }
     
-    // Add Love button if user is logged in
-if (Session.loggedInUserId != -1) {
-    Button loveBtn = new Button();
-    loveBtn.setStyle("-fx-background-color: transparent; -fx-font-size: 16px;");
+int loveCount = getLoveCountForRecipe(id);
 
-    // Set initial heart icon based on love status
-    if (isRecipeLovedByUser(id, Session.loggedInUserId)) {
-        loveBtn.setText("❤️"); // Loved
-    } else {
-        loveBtn.setText("♡"); // Not loved
-    }
+// ❤️ Love Button and Count
+Button loveBtn = new Button();
+loveBtn.setStyle("-fx-background-color: transparent; -fx-font-size: 16px;");
+Label loveCountLabel = new Label(String.valueOf(loveCount));
+loveCountLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #A04000; -fx-font-weight: bold;");
+
+// If user logged in, allow interaction
+if (Session.loggedInUserId != -1) {
+    boolean alreadyLoved = isRecipeLovedByUser(id, Session.loggedInUserId);
+    loveBtn.setText(alreadyLoved ? "❤️" : "♡");
 
     loveBtn.setOnAction(e -> {
-        toggleLoveForRecipe(id, Session.loggedInUserId, loveBtn);
+        toggleLoveForRecipe(id, Session.loggedInUserId, loveBtn, loveCountLabel);
     });
-
-    HBox actionRow = new HBox(10);
-    actionRow.getChildren().addAll( loveBtn);
-    card.getChildren().add(actionRow);
+} else {
+    // User not logged in — show static ♡ and disable
+    loveBtn.setText("♡");
+    loveBtn.setDisable(true);
+    loveBtn.setTooltip(new Tooltip("Login to love recipes"));
 }
+
+// Combine icon and count in an HBox
+HBox loveBox = new HBox(4);
+loveBox.getChildren().addAll(loveBtn, loveCountLabel);
+loveBox.setAlignment(Pos.CENTER_LEFT);
+
+// Add to card layout
+HBox actionRow = new HBox(10);
+actionRow.getChildren().addAll( loveBox);
+card.getChildren().add(actionRow);
+
 
     
     return card;
 }
+
+private int getLoveCountForRecipe(int recipeId) {
+    String sql = "SELECT COUNT(*) FROM loved_recipes WHERE recipe_id = ?";
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password");
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, recipeId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return 0;
+}
+
 
 private boolean isRecipeLovedByUser(int recipeId, int userId) {
     String sql = "SELECT COUNT(*) FROM loved_recipes WHERE user_id = ? AND recipe_id = ?";
@@ -202,7 +232,7 @@ private boolean isRecipeLovedByUser(int recipeId, int userId) {
 }
 
 
-private void toggleLoveForRecipe(int recipeId, int userId, Button loveBtn) {
+private void toggleLoveForRecipe(int recipeId, int userId, Button loveBtn, Label loveCountLabel) {
     String checkSql = "SELECT * FROM loved_recipes WHERE user_id = ? AND recipe_id = ?";
     String insertSql = "INSERT INTO loved_recipes (user_id, recipe_id) VALUES (?, ?)";
     String deleteSql = "DELETE FROM loved_recipes WHERE user_id = ? AND recipe_id = ?";
@@ -214,20 +244,23 @@ private void toggleLoveForRecipe(int recipeId, int userId, Button loveBtn) {
         ResultSet rs = checkStmt.executeQuery();
 
         if (rs.next()) {
-            // Already loved → Remove love
+            // Already loved → remove love
             PreparedStatement deleteStmt = conn.prepareStatement(deleteSql);
             deleteStmt.setInt(1, userId);
             deleteStmt.setInt(2, recipeId);
             deleteStmt.executeUpdate();
-            loveBtn.setText("♡"); // outline heart
+            loveBtn.setText("♡");
         } else {
-            // Not yet loved → Add love
+            // Not yet loved → add love
             PreparedStatement insertStmt = conn.prepareStatement(insertSql);
             insertStmt.setInt(1, userId);
             insertStmt.setInt(2, recipeId);
             insertStmt.executeUpdate();
-            loveBtn.setText("❤️"); // filled heart
+            loveBtn.setText("❤️");
         }
+
+        // Update love count label
+        loveCountLabel.setText(String.valueOf(getLoveCountForRecipe(recipeId)));
 
     } catch (SQLException e) {
         e.printStackTrace();
