@@ -1,0 +1,43 @@
+/* saved_recipes.css */
+
+/* Background */
+.anchor-pane {
+    -fx-background-color: #FDEBD0; /* Cream */
+}
+
+/* Title */
+.page-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #A04000; /* Deep Rust */
+}
+
+/* Scroll container */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: #D35400; /* Pumpkin Orange */
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+}
+
+/* Cards container */
+.card-container {
+    -fx-padding: 10;
+}
+
+/* Status label */
+.status-label {
+    -fx-text-fill: #4E342E; /* Rich Brown */
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+}
+
+/* Back button */
+.back-button {
+    -fx-background-color: #F39C12; /* Golden Yellow */
+    -fx-text-fill: #4E342E; /* Rich Brown */
+    -fx-font-weight: bold;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}

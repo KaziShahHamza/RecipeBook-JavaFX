@@ -9,33 +9,35 @@
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1"
             xmlns="http://javafx.com/javafx/20.0.1"
             fx:controller="recipe.book.SavedRecipes2Controller"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@saved_recipes.css">
 
     <children>
         <Label layoutX="200" layoutY="10"
-               style="-fx-font-size: 20px; -fx-font-weight: bold;"
-               text="Your Saved Recipes" />
+               fx:id="titleLabel"
+               text="Your Saved Recipes"
+               styleClass="page-title" />
 
         <ScrollPane fx:id="scrollPane"
                     layoutX="15.0" layoutY="47.0"
                     prefHeight="290.0" prefWidth="559.0"
                     fitToWidth="true"
-        >
+                    styleClass="scroll-pane">
             <content>
-                <FlowPane fx:id="cardContainer" hgap="5" vgap="5" />
+                <FlowPane fx:id="cardContainer" hgap="5" vgap="5" styleClass="card-container"/>
             </content>
         </ScrollPane>
 
         <Label fx:id="statusLabel"
                layoutY="341.0"
                prefHeight="36.0" prefWidth="590.0"
-               textAlignment="CENTER" />
+               textAlignment="CENTER"
+               styleClass="status-label" />
 
-        <!-- Back Button -->
         <Button fx:id="backBtn"
                 layoutX="20.0" layoutY="10.0"
                 text="← Back"
                 onAction="#handleBack"
-                style="-fx-background-color: #D5D8DC; -fx-text-fill: #000000;" />
+                styleClass="back-button" />
     </children>
 </AnchorPane>

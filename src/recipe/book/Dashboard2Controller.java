@@ -283,7 +283,7 @@ public class Dashboard2Controller  {
     
     private VBox createRecipeCard(Recipe recipe) {
         VBox card = new VBox(6);
-        card.setPadding(new Insets(10));
+        card.setPadding(new Insets(20));
         card.setPrefSize(200, 250);
         card.setStyle("""
             -fx-background-color: #ffffff;

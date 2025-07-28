@@ -104,7 +104,7 @@
                 <HBox alignment="CENTER" spacing="10">
                     <Button onAction="#handleSaveRecipe" style="-fx-background-color: #F39C12; -fx-text-fill: white; -fx-font-weight: bold;" text="Save" />
                     <Button onAction="#handleViewRecipes" style="-fx-background-color: #D35400; -fx-text-fill: white; -fx-font-weight: bold;" text="View All Recipes" />
-                   <Button onAction="#handleSavedRecipes2" text="Saved Recipes" />
+                   <Button onAction="#handleSavedRecipes2" style="-fx-background-color: #D35400; -fx-text-fill: white; -fx-font-weight: bold;" text="Saved Recipes" />
                 </HBox>
 
                 <Button onAction="#handleLogout" style="-fx-background-color: #A04000; -fx-text-fill: white;" text="Logout" />

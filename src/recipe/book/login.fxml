@@ -19,7 +19,7 @@
         <Button fx:id="loginButton" onAction="#handleLogin" styleClass="primary-button" text="Login" />
         <Button onAction="#handleSignupLink" styleClass="secondary-button" text="Create Account" />
 
-        <Button onAction="#handleViewCards" styleClass="info-button" text="View as Cards" />
+        <Button onAction="#handleViewCards" styleClass="info-button" text="View All Recipes" />
 
         <Label fx:id="errorLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;" textFill="red" />
 
