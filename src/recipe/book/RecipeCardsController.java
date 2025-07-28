@@ -159,8 +159,81 @@ private VBox createRecipeCard(int id, String name, String description, String ca
         card.getChildren().add(saveBtn);
     }
     
+    // Add Love button if user is logged in
+if (Session.loggedInUserId != -1) {
+    Button loveBtn = new Button();
+    loveBtn.setStyle("-fx-background-color: transparent; -fx-font-size: 16px;");
+
+    // Set initial heart icon based on love status
+    if (isRecipeLovedByUser(id, Session.loggedInUserId)) {
+        loveBtn.setText("❤️"); // Loved
+    } else {
+        loveBtn.setText("♡"); // Not loved
+    }
+
+    loveBtn.setOnAction(e -> {
+        toggleLoveForRecipe(id, Session.loggedInUserId, loveBtn);
+    });
+
+    HBox actionRow = new HBox(10);
+    actionRow.getChildren().addAll( loveBtn);
+    card.getChildren().add(actionRow);
+}
+
+    
     return card;
 }
+
+private boolean isRecipeLovedByUser(int recipeId, int userId) {
+    String sql = "SELECT COUNT(*) FROM loved_recipes WHERE user_id = ? AND recipe_id = ?";
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password");
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, userId);
+        stmt.setInt(2, recipeId);
+        ResultSet rs = stmt.executeQuery();
+
+        return rs.next() && rs.getInt(1) > 0;
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
+
+private void toggleLoveForRecipe(int recipeId, int userId, Button loveBtn) {
+    String checkSql = "SELECT * FROM loved_recipes WHERE user_id = ? AND recipe_id = ?";
+    String insertSql = "INSERT INTO loved_recipes (user_id, recipe_id) VALUES (?, ?)";
+    String deleteSql = "DELETE FROM loved_recipes WHERE user_id = ? AND recipe_id = ?";
+
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
+        PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+        checkStmt.setInt(1, userId);
+        checkStmt.setInt(2, recipeId);
+        ResultSet rs = checkStmt.executeQuery();
+
+        if (rs.next()) {
+            // Already loved → Remove love
+            PreparedStatement deleteStmt = conn.prepareStatement(deleteSql);
+            deleteStmt.setInt(1, userId);
+            deleteStmt.setInt(2, recipeId);
+            deleteStmt.executeUpdate();
+            loveBtn.setText("♡"); // outline heart
+        } else {
+            // Not yet loved → Add love
+            PreparedStatement insertStmt = conn.prepareStatement(insertSql);
+            insertStmt.setInt(1, userId);
+            insertStmt.setInt(2, recipeId);
+            insertStmt.executeUpdate();
+            loveBtn.setText("❤️"); // filled heart
+        }
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+}
+
 
 private boolean isRecipeAlreadySaved(int recipeId, int userId) {
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
