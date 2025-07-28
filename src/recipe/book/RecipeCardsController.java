@@ -108,39 +108,76 @@ private VBox createRecipeCard(int id, String name, String description, String ca
     for (Label lbl : List.of(categoryLabel, budgetLabel, timeLabel, difficultyLabel, ingredientsLabel)) {
         lbl.setStyle("-fx-font-size: 12px; -fx-text-fill: #4E342E;");
     }
-    
-    Button saveBtn = new Button("Save");
-    saveBtn.setStyle("-fx-background-color: #28B463; -fx-text-fill: white; -fx-font-weight: bold;");
-    saveBtn.setOnAction(e -> {
-        saveRecipeForUser(id);
-    });
-    
-    VBox.setMargin(saveBtn, new Insets(5, 0, 0, 0));
 
-    card.getChildren().addAll(
-        nameLabel, descLabel, categoryLabel, budgetLabel, timeLabel, difficultyLabel, ingredientsLabel, saveBtn
-    );   
-    
+
+
+    // Handle card click (not on button) for detail view
     card.setOnMouseClicked(event -> {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("RecipeDetails.fxml"));
-            Parent detailRoot = loader.load();
+        if (!(event.getTarget() instanceof Button)) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("RecipeDetails.fxml"));
+                Parent detailRoot = loader.load();
 
-            // Get controller and set the selected recipe
-            RecipeDetailsController controller = loader.getController();
-            controller.setRecipe(new Recipe(0, name, ingredients, description, category, budget, time, difficulty, imageFile), "recipescards");
+                RecipeDetailsController controller = loader.getController();
+                controller.setRecipe(
+                    new Recipe(id, name, ingredients, description, category, budget, time, difficulty, imageFile),
+                    "recipescards"
+                );
 
-            // Replace current scene with detail scene
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(detailRoot));
-            stage.setTitle("Recipe Details - " + name);
-        } catch (Exception e) {
-            e.printStackTrace();
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(new Scene(detailRoot));
+                stage.setTitle("Recipe Details - " + name);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     });
+
+    card.getChildren().addAll(nameLabel, descLabel, categoryLabel, budgetLabel, timeLabel, difficultyLabel, ingredientsLabel);
+
+        // Create Save/Saved button only if user is logged in
+    if (Session.loggedInUserId != -1) {
+        Button saveBtn = new Button();
+        saveBtn.setPrefWidth(100);
+        
+        if (isRecipeAlreadySaved(id, Session.loggedInUserId)) {
+            saveBtn.setText("Saved");
+            saveBtn.setDisable(true);
+            saveBtn.setStyle("-fx-background-color: #BFC9CA; -fx-text-fill: #2E4053; -fx-font-weight: bold;");
+        } else {
+            saveBtn.setText("Save");
+            saveBtn.setStyle("-fx-background-color: #28B463; -fx-text-fill: white; -fx-font-weight: bold;");
+            saveBtn.setOnAction(e -> {
+                saveRecipeForUser(id);
+                saveBtn.setText("Saved");
+                saveBtn.setDisable(true);
+                saveBtn.setStyle("-fx-background-color: #BFC9CA; -fx-text-fill: #2E4053; -fx-font-weight: bold;");
+            });
+        }
+
+        VBox.setMargin(saveBtn, new Insets(5, 0, 0, 0));
+        card.getChildren().add(saveBtn);
+    }
     
     return card;
 }
+
+private boolean isRecipeAlreadySaved(int recipeId, int userId) {
+    try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password")) {
+        String sql = "SELECT COUNT(*) FROM saved_recipes WHERE user_id = ? AND recipe_id = ?";
+        PreparedStatement stmt = conn.prepareStatement(sql);
+        stmt.setInt(1, userId);
+        stmt.setInt(2, recipeId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt(1) > 0;
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return false;
+}
+
 
 private void saveRecipeForUser(int recipeId) {
     try (Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/recipedb", "root", "password");) {
