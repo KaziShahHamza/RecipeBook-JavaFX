@@ -1,5 +1,6 @@
 package recipe.book;
 
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -160,6 +161,25 @@ public class SavedRecipes2Controller {
             statusLabel.setText("Failed to unsave recipe.");
         }
     }
+    
+    @FXML
+    private void handleBack(javafx.event.ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("dashboard2.fxml"));
+            Parent root = loader.load();
+
+            Dashboard2Controller controller = loader.getController();
+            controller.setUser(Session.loggedInUserId, Session.loggedInUsername); // Optional if needed
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Dashboard");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private String shorten(String text, int maxLength) {
         if (text == null) return "";

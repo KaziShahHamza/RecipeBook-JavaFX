@@ -14,11 +14,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="601.0" prefWidth="800.0" 
-            style="-fx-background-color: #FDEBD0;" 
-            xmlns="http://javafx.com/javafx/20.0.1" 
-            xmlns:fx="http://javafx.com/fxml/1" 
-            fx:controller="recipe.book.Dashboard2Controller">
+<AnchorPane prefHeight="601.0" prefWidth="800.0" style="-fx-background-color: #FDEBD0;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.Dashboard2Controller">
 
     <HBox layoutX="10.0" layoutY="7.0" prefHeight="588.0" prefWidth="926.0" spacing="10.0">
         <children>
@@ -108,15 +104,10 @@
                 <HBox alignment="CENTER" spacing="10">
                     <Button onAction="#handleSaveRecipe" style="-fx-background-color: #F39C12; -fx-text-fill: white; -fx-font-weight: bold;" text="Save" />
                     <Button onAction="#handleViewRecipes" style="-fx-background-color: #D35400; -fx-text-fill: white; -fx-font-weight: bold;" text="View All Recipes" />
+                   <Button onAction="#handleSavedRecipes2" text="Saved Recipes" />
                 </HBox>
 
                 <Button onAction="#handleLogout" style="-fx-background-color: #A04000; -fx-text-fill: white;" text="Logout" />
-                <Button onAction="#handleSavedRecipes1" text="Saved Recipes" />
-                <Button onAction="#handleSavedRecipes2" text="Saved Recipes 2" />
-
-                <Button layoutX="150" layoutY="90"
-            text="Go to Hello Page"
-            onAction="#handleHelloPage" />
 
                 <!-- Status Label -->
                 <Label fx:id="statusLabel" style="-fx-text-fill: #4E342E; -fx-font-style: italic;" />
