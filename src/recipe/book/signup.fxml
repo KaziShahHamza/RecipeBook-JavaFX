@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="365.0" prefWidth="400.0" style="-fx-background-color: linear-gradient(to bottom, #fdebd0, #f8e0c0); -fx-padding: 20;" stylesheets="@signup.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.SignupController">
+<AnchorPane prefHeight="350.0" prefWidth="400.0" style="-fx-background-color: linear-gradient(to bottom, #fdebd0, #f8e0c0); -fx-padding: 10;" stylesheets="@signup.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.SignupController">
     
-    <VBox alignment="CENTER" layoutX="80.0" layoutY="34.0" prefWidth="240.0" spacing="12.0">
+    <VBox alignment="CENTER" layoutX="49.0" layoutY="37.0" prefHeight="350.0" prefWidth="303.0" spacing="12.0">
         <Label styleClass="heading-label" text="Create Your Account" />
 
         <TextField fx:id="usernameField" promptText="Username" styleClass="input-field" />

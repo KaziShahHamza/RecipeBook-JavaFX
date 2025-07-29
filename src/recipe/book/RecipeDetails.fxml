@@ -7,27 +7,27 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="446.0" prefWidth="563.0" styleClass="root-pane" stylesheets="@recipedetails-styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.RecipeDetailsController">
+<AnchorPane prefHeight="600.0" prefWidth="850.0" styleClass="root-pane" stylesheets="@recipedetails-styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.RecipeDetailsController">
 
-   <HBox alignment="CENTER" layoutX="4.0" layoutY="2.0" prefHeight="435.0" prefWidth="552.0" spacing="10.0" styleClass="main-container">
+   <HBox alignment="CENTER" layoutX="15.0" layoutY="9.0" prefHeight="582.0" prefWidth="824.0" spacing="10.0" styleClass="main-container">
       <children>
-          <VBox prefHeight="380.0" prefWidth="312.0" spacing="8" styleClass="info-box">
-              <Label fx:id="nameLabel" prefHeight="35.0" prefWidth="221.0" styleClass="title-label" />
-              <Label fx:id="categoryLabel" prefHeight="20.0" prefWidth="225.0" styleClass="detail-label" />
-              <Label fx:id="budgetLabel" prefHeight="20.0" prefWidth="221.0" styleClass="detail-label" />
-              <Label fx:id="timeLabel" prefHeight="20.0" prefWidth="219.0" styleClass="detail-label" />
-              <Label fx:id="difficultyLabel" prefHeight="20.0" prefWidth="216.0" styleClass="detail-label" />
+          <VBox prefHeight="562.0" prefWidth="503.0" spacing="8" styleClass="info-box">
+              <Label fx:id="nameLabel" prefHeight="35.0" prefWidth="427.0" styleClass="title-label" />
+              <Label fx:id="categoryLabel" prefHeight="20.0" prefWidth="403.0" styleClass="detail-label" />
+              <Label fx:id="budgetLabel" prefHeight="20.0" prefWidth="428.0" styleClass="detail-label" />
+              <Label fx:id="timeLabel" prefHeight="20.0" prefWidth="427.0" styleClass="detail-label" />
+              <Label fx:id="difficultyLabel" prefHeight="20.0" prefWidth="435.0" styleClass="detail-label" />
               
               <Label styleClass="section-label" text="Ingredients:" />
-              <Label fx:id="ingredientsLabel" maxWidth="480.0" styleClass="text-label" wrapText="true" />
+              <Label fx:id="ingredientsLabel" maxWidth="480.0" prefHeight="53.0" prefWidth="440.0" styleClass="text-label" wrapText="true" />
               
               <Label styleClass="section-label" text="Description:" />
               <Label fx:id="descriptionLabel" maxWidth="480.0" prefHeight="200.0" prefWidth="215.0" styleClass="text-label" wrapText="true" />
       
-              <Button onAction="#handleBack" prefWidth="51.0" styleClass="button-back" text="Back" />
+              <Button onAction="#handleBack" prefWidth="51.0" styleClass="button-back" text="Back" textAlignment="CENTER" />
           </VBox>
            
-          <ImageView fx:id="recipeImageView" fitHeight="200" fitWidth="235.0" preserveRatio="true" styleClass="recipe-image" />
+          <ImageView fx:id="recipeImageView" fitHeight="383.0" fitWidth="288.0" preserveRatio="true" styleClass="recipe-image" />
       </children>
    </HBox>
 </AnchorPane>

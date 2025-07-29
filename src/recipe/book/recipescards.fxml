@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="596.0" prefWidth="673.0" styleClass="root" stylesheets="@recipecards-style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.RecipeCardsController">
+<AnchorPane prefHeight="600.0" prefWidth="850.0" styleClass="root" stylesheets="@recipecards-style.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.RecipeCardsController">
 
-    <VBox alignment="TOP_CENTER" layoutX="15.0" layoutY="12.0" spacing="10.0" styleClass="main-container">
+    <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="5.0" prefHeight="637.0" prefWidth="859.0" spacing="10.0" styleClass="main-container">
 
         <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="585.0" spacing="150.0" styleClass="header-bar">
             <Label styleClass="title-label" text="Recipes Gallery" />
@@ -31,7 +31,7 @@
 
         <HBox spacing="10.0">
             <!-- Filters -->
-            <VBox spacing="15.0" styleClass="filter-box">
+            <VBox prefHeight="445.0" prefWidth="163.0" spacing="15.0" styleClass="filter-box">
                 <!-- Filter Buttons -->
                 <HBox spacing="10.0">
                     <Button fx:id="filterButton" onAction="#handleFilter" styleClass="primary-button" text="Filter" />
@@ -71,11 +71,11 @@
             </VBox>
 
             <!-- Card Gallery -->
-            <ScrollPane fitToWidth="true" styleClass="card-scroll">
-                <FlowPane fx:id="cardContainer" hgap="10" prefHeight="453.0" prefWidth="500.0" vgap="10" />
+            <ScrollPane fitToWidth="true" prefHeight="505.0" prefWidth="661.0" styleClass="card-scroll">
+                <FlowPane fx:id="cardContainer" hgap="10" prefHeight="457.0" prefWidth="637.0" vgap="10" />
             </ScrollPane>
         </HBox>
 
-        <Button fx:id="backButton" onAction="#handleBack" styleClass="secondary-button" text="Back" />
+        <Button fx:id="backButton" onAction="#handleBack" prefHeight="25.0" prefWidth="63.0" styleClass="secondary-button" text="Back" />
     </VBox>
 </AnchorPane>

@@ -14,31 +14,31 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="601.0" prefWidth="800.0" style="-fx-background-color: #FDEBD0;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.Dashboard2Controller">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #FDEBD0;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.Dashboard2Controller">
 
-    <HBox layoutX="10.0" layoutY="7.0" prefHeight="588.0" prefWidth="926.0" spacing="10.0">
+    <HBox layoutX="7.0" layoutY="2.0" prefHeight="600.0" prefWidth="900.0" spacing="10.0">
         <children>
             <!-- LEFT FORM SECTION -->
-            <VBox alignment="CENTER" prefHeight="643.0" prefWidth="331.0" spacing="10.0" style="-fx-padding: 20;">
+            <VBox alignment="CENTER" prefHeight="600.0" prefWidth="537.0" spacing="10.0" style="-fx-padding: 10;">
                 <Label fx:id="welcomeLabel" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #D35400;" text="Welcome Text" />
 
-                <Label fx:id="welcomeLabel1" style="-fx-font-size: 16px; -fx-text-fill: #4E342E;" text="Add your unique Recipe &amp; Share it with everyone" />
+                <Label fx:id="welcomeLabel1" prefHeight="46.0" prefWidth="318.0" style="-fx-font-size: 16px; -fx-text-fill: #4E342E;" text="Add your unique Recipe." textAlignment="CENTER" />
 
                 <!-- Recipe Name -->
                 <HBox spacing="10">
                     <Label style="-fx-text-fill: #4E342E;" text="Recipe Name:" />
-                    <TextField fx:id="recipeNameField" prefHeight="28.0" prefWidth="205.0" promptText="Enter Recipe Name" style="-fx-background-color: #fff3e0; -fx-border-color: #D35400;" />
+                    <TextField fx:id="recipeNameField" prefHeight="28.0" prefWidth="317.0" promptText="Enter Recipe Name" style="-fx-background-color: #fff3e0; -fx-border-color: #D35400;" />
                 </HBox>
 
                 <!-- Ingredients -->
                 <HBox spacing="10">
                     <Label style="-fx-text-fill: #4E342E;" text="Ingredients:" />
-                    <TextArea fx:id="ingredientsField" prefHeight="43.0" prefRowCount="2" prefWidth="217.0" promptText="Enter Ingredients" style="-fx-background-color: #fff3e0; -fx-border-color: #D35400; -fx-text-fill: #4E342E;" />
+                    <TextArea fx:id="ingredientsField" prefHeight="41.0" prefRowCount="2" prefWidth="327.0" promptText="Enter Ingredients" style="-fx-background-color: #fff3e0; -fx-border-color: #D35400; -fx-text-fill: #4E342E;" />
                 </HBox>
 
                 <!-- Description -->
                 <Label style="-fx-text-fill: #4E342E;" text="Description:" />
-                <TextArea fx:id="descriptionField" prefHeight="57.0" prefRowCount="3" prefWidth="291.0" promptText="Short Description" style="-fx-background-color: #fff3e0; -fx-border-color: #D35400; -fx-text-fill: #4E342E;" />
+                <TextArea fx:id="descriptionField" prefHeight="100.0" prefRowCount="3" prefWidth="267.0" promptText="Short Description" style="-fx-background-color: #fff3e0; -fx-border-color: #D35400; -fx-text-fill: #4E342E;" />
 
                 <!-- Category -->
                 <HBox spacing="10">
@@ -89,33 +89,35 @@
                 </HBox>
 
                 <!-- Image Picker -->
-                <HBox spacing="10">
+                <HBox alignment="CENTER_LEFT" spacing="10">
                     <Button onAction="#handleChooseImage" style="-fx-background-color: #A04000; -fx-text-fill: white;" text="Choose Image" />
                     <Label fx:id="imagePathLabel" prefHeight="28.0" prefWidth="99.0" style="-fx-text-fill: #4E342E;" text="No image selected" textAlignment="CENTER">
                   <opaqueInsets>
                      <Insets />
-                  </opaqueInsets></Label>
+                  </opaqueInsets>
+                  <graphic>
+         
+                         <!-- Image Preview -->
+                         <ImageView fx:id="recipeImageView" fitHeight="100" fitWidth="115.0" preserveRatio="true" />
+                  </graphic></Label>
                 </HBox>
-
-                <!-- Image Preview -->
-                <ImageView fx:id="recipeImageView" fitHeight="100" fitWidth="100" preserveRatio="true" />
 
                 <!-- Action Buttons -->
                 <HBox alignment="CENTER" spacing="10">
                     <Button onAction="#handleSaveRecipe" style="-fx-background-color: #F39C12; -fx-text-fill: white; -fx-font-weight: bold;" text="Save" />
                     <Button onAction="#handleViewRecipes" style="-fx-background-color: #D35400; -fx-text-fill: white; -fx-font-weight: bold;" text="View All Recipes" />
                    <Button onAction="#handleSavedRecipes2" style="-fx-background-color: #D35400; -fx-text-fill: white; -fx-font-weight: bold;" text="Saved Recipes" />
+   
+                   <Button onAction="#handleLogout" style="-fx-background-color: #A04000; -fx-text-fill: white;" text="Logout" />
                 </HBox>
 
-                <Button onAction="#handleLogout" style="-fx-background-color: #A04000; -fx-text-fill: white;" text="Logout" />
-
                 <!-- Status Label -->
-                <Label fx:id="statusLabel" style="-fx-text-fill: #4E342E; -fx-font-style: italic;" />
+                <Label fx:id="statusLabel" prefHeight="17.0" prefWidth="276.0" style="-fx-text-fill: #4E342E; -fx-font-style: italic;" />
             </VBox>
 
             <!-- RIGHT SCROLLPANE FOR CARDS -->
             <ScrollPane fitToWidth="true" prefHeight="643.0" prefWidth="579.0" style="-fx-background-color: transparent;">
-                <FlowPane fx:id="cardContainer" prefHeight="631.0" prefWidth="353.0" style="-fx-padding: 10;" />
+                <FlowPane fx:id="cardContainer" prefHeight="631.0" prefWidth="414.0" style="-fx-padding: 10;" />
             </ScrollPane>
         </children>
     </HBox>

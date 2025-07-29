@@ -6,38 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
-            xmlns="http://javafx.com/javafx/20.0.1"
-            fx:controller="recipe.book.SavedRecipes2Controller"
-            prefHeight="400.0" prefWidth="600.0"
-            stylesheets="@saved_recipes.css">
+<AnchorPane prefHeight="600.0" prefWidth="850.0" stylesheets="@saved_recipes.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="recipe.book.SavedRecipes2Controller">
 
     <children>
-        <Label layoutX="200" layoutY="10"
-               fx:id="titleLabel"
-               text="Your Saved Recipes"
-               styleClass="page-title" />
+        <Label fx:id="titleLabel" layoutX="308.0" layoutY="8.0" styleClass="page-title" text="Your Saved Recipes" textAlignment="CENTER" />
 
-        <ScrollPane fx:id="scrollPane"
-                    layoutX="15.0" layoutY="47.0"
-                    prefHeight="290.0" prefWidth="559.0"
-                    fitToWidth="true"
-                    styleClass="scroll-pane">
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" layoutX="19.0" layoutY="48.0" prefHeight="538.0" prefWidth="812.0" styleClass="scroll-pane">
             <content>
-                <FlowPane fx:id="cardContainer" hgap="5" vgap="5" styleClass="card-container"/>
+                <FlowPane fx:id="cardContainer" hgap="5" styleClass="card-container" vgap="5" />
             </content>
         </ScrollPane>
 
-        <Label fx:id="statusLabel"
-               layoutY="341.0"
-               prefHeight="36.0" prefWidth="590.0"
-               textAlignment="CENTER"
-               styleClass="status-label" />
+        <Label fx:id="statusLabel" layoutY="341.0" prefHeight="36.0" prefWidth="590.0" styleClass="status-label" textAlignment="CENTER" />
 
-        <Button fx:id="backBtn"
-                layoutX="20.0" layoutY="10.0"
-                text="← Back"
-                onAction="#handleBack"
-                styleClass="back-button" />
+        <Button fx:id="backBtn" layoutX="20.0" layoutY="10.0" onAction="#handleBack" prefHeight="25.0" prefWidth="74.0" styleClass="back-button" text="← Back" />
     </children>
 </AnchorPane>
