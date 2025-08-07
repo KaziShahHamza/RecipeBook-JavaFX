@@ -93,11 +93,6 @@ You can:
 - Recipes are filterable by category, budget, and difficulty.
 - Images and database must exist on the new PC.
 
----
-
-## 📸 Screenshot
-
-_Include screenshots of the Dashboard, Recipe Cards, and Details Page here._
 
 ---
 
