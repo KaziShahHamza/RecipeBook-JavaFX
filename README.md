@@ -112,8 +112,3 @@ RecipeBook/
 Author: Kazi Shah Hamza  
 Email: kazishahhamza01@gmail.com
 
----
-
-## 📄 License
-
-This project is for academic and educational use only.
